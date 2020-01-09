@@ -1,0 +1,31 @@
+.menuBrick {
+  text-align: center;
+  font-size: 20px;
+  font-family: sans-serif;
+  padding: 20px;
+  float: left;
+  border-left: 1px solid black;
+  color: black;
+}
+
+.menuBrick:last-child {
+  border-right: 1px solid black;
+}
+
+.menuBrick:hover {
+  color: green;
+}
+
+.menuContainer {
+  width: 100%;
+  background-color: #e3e1de;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.menuContainerSticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
