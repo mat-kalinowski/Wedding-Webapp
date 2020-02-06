@@ -1,17 +1,30 @@
 .app {
   background-color:white;
-  padding: 0;
-  margin: 0;
   width: auto;
   height: auto;
+}
+
+body {
+  margin: 0;
+}
+
+.headerLogo {
+  font-family: Helvetica;
+  color: #8f8067;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.headerSubText {
+  font-size: 13px;
+  font-family: Helvetica;
+  color: #8f8067;
 }
 
 .header {
   left: 0;
   padding: 50px;
   margin: 0;
-  font-size: 40px;
-  font-weight: bold;
   background-color:#faf3ed;
   align-self: stretch;
   text-align: center;

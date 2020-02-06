@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css?family=Gelasio|Montserrat&display=swap');
+
+.introPane {
+  display: flex;
+  width:70%;
+  margin: 0 auto;
+  align-items: center;
+  flex-direction: column;
+}
+
+.introHeaderPane {
+  display: flex;
+  justify-content: space-around;
+}
+
+.headerText {
+  color: #636261;
+  font-family: 'Gelasio', serif;
+  font-weight: bold;
+  font-size: 23px;
+  text-align: center;
+}
+
+.smallText {
+  color:#545454;
+  width: 50%;
+  text-align:justify;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  width: 350px;
+}
+
+.introContentPane {
+  padding: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  color:#545454;
+  text-align: left;
+  width: 100%;
+}
+
+img.shadow {box-shadow: 1px 1px 7px #8f8f8f;}
