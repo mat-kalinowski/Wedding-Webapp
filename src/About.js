@@ -3,10 +3,22 @@ import React from 'react'
 import PersonIcon from '@material-ui/icons/Person';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import SpeakerIcon from '@material-ui/icons/Speaker';
-import Logo from "./images/holiday.jpg";
+
+import Logo from "./images/wedding.jpg";
+import PinkFloyd from "./images/pink_floyd.jpg";
+import KingCrimson from "./images/king_crimson.jpg";
+import DeepPurple from "./images/deep_purple.jpg";
 
 import './css/main.css'
 import './css/about.css'
+import './css/inspirations.css'
+
+var music_bands = [
+  {photo:PinkFloyd, name:"Pink Floyd", description:"Kultowy zespół należący do kręgu moich ulubionych. Albumem, do którego najczęściej wracam jest The Dark side of the moon"},
+  {photo:KingCrimson, name:"King Crimson", description:"Jeden z pierwszych zespołów którego słuchałem. W pamięć najbardziej zapada kultowy utwór Frame by frame"},
+  {photo:DeepPurple, name:"Deep Purple", description:"Jeden z pierwszych zespołów którego słuchałem. W pamięć najbardziej zapada kultowy utwór Frame by frame"}
+
+]
 
 
 
@@ -18,6 +30,12 @@ export class About extends React.Component {
             <IntroPane/>
             <div className="headerPane">
               <MusicNoteIcon style={{ fontSize: 50 }}/> Moje inspiracje</div>
+              <div className="inspirationsContainer">
+                <div className="introContentPane"> Muzyka jest w moim życiu praktycznie od zawsze. Ta, która będzie tworzyła klimat na Twojej
+                imprezie jest dowolna. Jeśli jednak będziesz chciał żebym współtworzył playlistę, chciałbym przedstawić
+                Ci kilka płyt, do których mam największy sentyment.</div>
+                <MusicContainer/>
+              </div>
             <div className="headerPane">
               <SpeakerIcon style={{ fontSize: 50 }}/> Sprzęt</div>
           </>);
@@ -31,10 +49,12 @@ export class IntroPane extends React.Component {
       <>
         <div className="introPane">
           <div className="introHeaderPane">
-            <img src={Logo} width="45%" className="shadow"/>
             <div className="introHeaderContent">
-              <div className="headerText">Nazywam się Jarosław Kalinowski.</div>
-              <div className="smallText">Moją pasją i głównym zajęciem jest organizacja oprawy muzycznej na różnego rodzaju imprezach. Zajmuję się wszystkim od wesel po eventy firmowe.</div>
+              <img src={Logo} className="shadow"/>
+              <div className="imagePane">
+                <div className="headerText">Nazywam się Jarosław Kalinowski.</div>
+                <div className="smallText">Moją pasją i głównym zajęciem jest organizacja oprawy muzycznej na różnego rodzaju imprezach. Zajmuję się wszystkim od wesel po eventy firmowe.</div>
+              </div>
             </div>
           </div>
           <div className="introContentPane">
@@ -44,5 +64,38 @@ export class IntroPane extends React.Component {
         </div>
       </>
     );
+  }
+}
+
+export class MusicContainer extends React.Component {
+  render(){
+    return(<>
+      <div className="musicContainer">
+        <MusicBrick></MusicBrick>
+      </div>
+      </>);
+  }
+}
+
+export class MusicBrick extends React.Component {
+  constructor(props){
+    super(props)
+    this.darkStyle = {}
+    this.lightStyle = {}
+  }
+  render(){
+    return(<>
+      {music_bands.map(object =>
+        <div className="musicBrick">
+          <div className="musicPhotoContainer">
+            <img src={object.photo} className="shadow" style={{width:80, height:"auto"}}></img>
+          </div>
+          <div className="musicTextContainer">
+            <div className="musicTitle">{object.name}</div>
+            <div className="musicDescription">{object.description}</div>
+          </div>
+        </div>
+      )}
+      </>);
   }
 }

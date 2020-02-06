@@ -15,16 +15,49 @@ var mock_art = [
   {title: "Rozbudowa strony", date:"07.01.2020" , content:"Strona internetowa, na której przebywasz jest w przebudowie, przepraszamy za utrudnienia. Niedługo na stronie zostanie dodany shoutbox z możliwością bezpośredniego i szybkiego kontaktu w celu omówienia usług i dojścia do porozumienia. W celu skorzystania z shoutboxa naciśnij przycisk po prawej stronie znajdujący się pod strzałką... "},
   {title: "Rozbudowa strony", date:"08.01.2020", content:"Strona internetowa, na której przebywasz jest w przebudowie, przepraszamy za utrudnienia. Niedługo na stronie zostanie dodany shoutbox z możliwością bezpośredniego i szybkiego kontaktu w celu omówienia usług i dojścia do porozumienia. W celu skorzystania z shoutboxa naciśnij przycisk po prawej stronie znajdujący się pod strzałką... "}];
 
+var default_style = {fontSize: 40, color:'grey', margin:4}
+
+var social_media = [
+  {component:InstagramIcon, style: default_style, hoverStyle:{margin:4, fontSize: 40, color:'pink'}},
+  {component:FacebookIcon, style: default_style, hoverStyle:{margin:4, fontSize: 40, color:'blue'}},
+  {component:PinterestIcon, style: default_style, hoverStyle:{margin:4, fontSize: 40, color:'red'}}
+]
+
 export class Home extends React.Component {
   render(){
     return(<>
             <div className="headerPane"><MenuBookIcon style={{ fontSize: 50}} /> Co nowego ?</div>
             <NewsContainer></NewsContainer>
             <div className="headerPane"><GroupIcon  style={{ fontSize: 50 }}/> Serwisy społecznościowe</div>
-            <InstagramIcon style={{ fontSize: 40}}/>
-            <FacebookIcon style={{ fontSize: 40}}/>
-            <PinterestIcon style={{ fontSize: 40}}/>
+
+            {social_media.map(object =>
+              <SocialMediaButton name={object.component} style={object.style} hoverStyle={object.hoverStyle}>
+              </SocialMediaButton>)}
           </>);
+  }
+}
+
+export class SocialMediaButton extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {hover: false}
+    this.hoverState = this.hoverState.bind(this)
+  }
+
+  hoverState(){
+    this.setState({hover: !this.state.hover})
+  }
+
+  render() {
+    let Component = this.props.name;
+    let style={};
+
+    if(this.state.hover)
+      style=this.props.hoverStyle;
+    else
+      style=this.props.style;
+
+    return(<Component style={style} onMouseEnter={this.hoverState} onMouseLeave={this.hoverState}/>);
   }
 }
 

@@ -1,14 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Gelasio|Montserrat&display=swap');
+
 .menuBrick {
-  margin-right: 20px;
+  margin-right: 25px;
   text-align: center;
-  font-size: 20px;
-  font-family: sans-serif;
+  font-size: 19px;
+  font-family: 'Gelasio', serif;
+  text-shadow: 0px 0px 4px #dedede;
   float: left;
   color: #bda986;
 }
 
 .menuBrick:hover {
-  padding-top: 15px;
+  text-shadow: 0px 0px 0px #c7c2c0;
+  margin-right: 10px;
+  padding-top: 8px;
   padding-left: 10px;
   padding-right: 10px;
   height: 55px;
@@ -19,22 +24,19 @@
 }
 
 .menuContainer {
-  height: 60px;
+  z-index: 1;
+  height: 50px;
   overflow: visible;
-  border-top: 2px solid #bda986;
-  border-bottom: 2px solid #bda986;
-  background-color: #ededed;
+  border-top: 2.5px solid #bda986;
+  border-bottom: 2.5px solid #bda986;
+  background-color: #f2f2f2;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .menuContainerSticky {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
-}
-
-.menuContainerSticky + .mainPane {
-  padding-top: 60px;
 }

@@ -2,41 +2,54 @@
 
 .introPane {
   display: flex;
-  width:70%;
+  width:66%;
   margin: 0 auto;
   align-items: center;
   flex-direction: column;
 }
 
 .introHeaderPane {
+  width: 85%;
+  position: relative;
+  border: 1px black;
+}
+
+.imagePane {
+  padding: 10px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  background: rgba(0,0,0,.5);
+  color: rgba(255,255,255,.6);
+  height: 27%;
+  /*border-radius: 0px 0px 25px 25px;*/
 }
 
 .headerText {
-  color: #636261;
   font-family: 'Gelasio', serif;
-  font-weight: bold;
-  font-size: 23px;
+  font-size: 21px;
   text-align: center;
 }
 
 .smallText {
-  color:#545454;
-  width: 50%;
-  text-align:justify;
   font-family: 'Montserrat', sans-serif;
-  font-size: 20px;
-  width: 350px;
+  font-size: 14px;
 }
 
 .introContentPane {
+  margin-top: 20px;
   padding: 20px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   color:#545454;
-  text-align: left;
-  width: 100%;
+  text-align: justify;
 }
 
-img.shadow {box-shadow: 1px 1px 7px #8f8f8f;}
+img.shadow {
+  box-shadow: 1px 1px 7px #8f8f8f;
+  width: 100%;
+  /*border-radius: 25px;*/
+}
