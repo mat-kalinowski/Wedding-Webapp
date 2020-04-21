@@ -1,0 +1,15 @@
+version: "3"
+services:
+        backend:
+                build: ./wedding-backend
+                ports: 
+                        - "8000:8000"
+                volumes:
+                        - ./wedding-backend/src/:/go/src/app
+
+        frontend:
+                build: ./wedding-frontend
+                ports:
+                        - "3000:3000"
+                volumes:
+                        - ./wedding-frontend/src:/node/src

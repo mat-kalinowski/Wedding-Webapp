@@ -1,0 +1,92 @@
+
+/*
+  definitions of the main content layout division into sub panes
+*/
+
+.headerPane {
+  margin-left: 40px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding: 20px;
+  text-align: left;
+  color: #c6bccf;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: "Bookman Old Style";
+}
+
+body {
+  background-color:#dbd0bd;
+  padding-top: 0;
+  margin-top: 5px;
+}
+
+.colorFill{
+  margin:  0 auto;
+  background-color: #e9e2d6;
+}
+
+.mainPane {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+
+  background-color: white;
+  margin: auto;
+}
+
+.navbarPane {
+  width: 38.2%;
+  background-color:#faf3ed;
+  
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.navbarUpperPane {
+ height: 81.8%;
+}
+
+.navbarLowerPane {
+  height: 38.2%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.aboutTitlePane {
+  width: 38.2%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.aboutContentPane {
+  width: 81.8%;
+  padding: 10px;
+  font-family: Helvetica;
+  color: #8f8067;
+}
+
+.aboutPhotoPane {
+  height: 81.8%;
+}
+
+.aboutHeaderPane {
+  text-align: right;
+  color: #dbd0bd;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: "Bookman Old Style";  height: 38.2%;
+}
+
+.contentPane {
+  width: 61.8%;
+  padding: 5px;
+  padding-top: 0px;
+  text-align: center;
+  font-family: sans-serif;
+}

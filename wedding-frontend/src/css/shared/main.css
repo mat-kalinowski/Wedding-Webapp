@@ -1,0 +1,26 @@
+/*
+  definitions of header layout and overall web page layout
+*/
+
+
+.headerLogo {
+  font-family: Helvetica;
+  color: #8f8067;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.headerSubText {
+  font-size: 16px;
+  font-family: Helvetica;
+  color: #8f8067;
+}
+
+.header {
+  left: 0;
+  padding: 30px;
+  margin: 0;
+  background-color:#faf3ed;
+  align-self: stretch;
+  text-align: center;
+}

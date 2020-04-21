@@ -1,0 +1,85 @@
+/*
+  home page specifific elements definitions
+*/
+
+.scrollContainer{
+  padding: 7px;
+  background-color: #fafafa;
+  border-radius: 15px;
+  border: 2px solid #dbdbdb;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.newsContainer {
+  color: black;
+  background-color: #fafafa;
+  margin: 0 auto;
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.newsPane {
+  margin-top: 16px;
+  margin-bottom: 24px;
+  font-size: 13.5px;
+}
+
+.newsHeader {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 95%;
+}
+
+.newsHeaderText {
+  color: #636261;
+  font-family: 'Gelasio', serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.newsHeaderDate {
+  color: #dbdbdb;
+  font-size: 14px;
+}
+
+.newsContent > hr {
+  border-top: 2px solid #dbdbdb;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.newsContent {
+  text-align: left;
+  margin-left: 4%;
+  margin-right: 4%;
+  margin-bottom: 5px;
+  color: grey;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 200px;
+  border-radius: 30px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 30px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 30px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 30px;
+}
