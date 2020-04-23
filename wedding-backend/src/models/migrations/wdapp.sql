@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS news (
-    id            INT PRIMARY KEY      NOT NULL, 
+    id            INTEGER  PRIMARY KEY, 
     title         CHAR(50), 
     content       TEXT, 
-    creation_date TEXT
+    date          TEXT
 );
 
 /*CREATE TABLE IF NOT EXISTS messages (

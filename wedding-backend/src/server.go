@@ -1,32 +1,59 @@
 package main
 
 import (
-	"fmt"
+	"github.com/mat-kalinowski/wedding-backend/models"
 	"github.com/gorilla/mux"
+	"fmt"
 	"net/http"
 	"encoding/json"
 )
 
-var News_list []db.News
-
 func main(){
-	fmt.Printf("hello, backend server available on port 8000 \n")
+	fmt.Printf("hello, backend server available on port 8000 :) \n")
+
 	router := mux.NewRouter()
+	models.InitDB()
 
 	router.HandleFunc("/news", getAllNews).Methods("GET")
-	router.HandleFunc("/news", createNews).Methods("POST")
-	
+	router.HandleFunc("/news", storeNews).Methods("POST")
+	router.HandleFunc("/news", deleteNews).Methods("DELETE")
+
 	http.ListenAndServe(":8000", router)
 }
 
-func getAllNews(w http.ResponseWriter, r *http.Request){
+func getAllNews(w http.ResponseWriter, r *http.Request) {
+	var newsList []models.News
+
+	models.GetNews(&newsList)
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(News_list)
+	json.NewEncoder(w).Encode(newsList)
 }
 
-func createNews(w http.ResponseWriter, r *http.Request){
-	var v db.News
+func storeNews(w http.ResponseWriter, r *http.Request) {
+	var currNews models.News
+
+	err := json.NewDecoder(r.Body).Decode(&currNews)
+
+	if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	models.StoreNews(currNews)
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Decode(&v)
+}
+
+func deleteNews(w http.ResponseWriter, r *http.Request) {
+	var delNews models.News
+
+	err := json.NewDecoder(r.Body).Decode(&delNews)
+	
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	models.DeleteNews(delNews)
+
+	w.Header().Set("Content-Type", "application/json")
 }

@@ -4,10 +4,10 @@ PID_FILE=/tmp/golang-app.pid
 
 run:
 	kill -9 `cat $(PID_FILE)`
-	go get -d -v ./... 
+	go get -d -v ./...	
 	go install -v ./...
 	$(MAKE) migrations -C ./models/migrations
-	app & echo $$! > $(PID_FILE)
+	wedding-backend & echo $$! > $(PID_FILE)
 
 watch: run
 	export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib" && \

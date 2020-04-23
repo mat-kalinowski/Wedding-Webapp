@@ -5,3 +5,4 @@ migrations:
 	sqlite3 wdapp.db < ./wdapp.sql 
 
 .PHONY: migrations
+.IGNORE: migrations

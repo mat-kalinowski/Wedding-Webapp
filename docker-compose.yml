@@ -5,7 +5,10 @@ services:
                 ports: 
                         - "8000:8000"
                 volumes:
-                        - ./wedding-backend/src/:/go/src/app
+                        - ./wedding-backend/src/:/root
+                environment:
+                        GOOS: "linux"
+                        CGO_ENABLED: "1"
 
         frontend:
                 build: ./wedding-frontend
@@ -13,3 +16,9 @@ services:
                         - "3000:3000"
                 volumes:
                         - ./wedding-frontend/src:/node/src
+                #admin-frontend:
+                #build: ./wedding-admin-frontend
+                #ports:
+                        #- "3030:3030"
+                #volumes:
+               #        - ./wedding-admin-frontend/src:/node/src
