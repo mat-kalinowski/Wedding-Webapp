@@ -39,7 +39,6 @@ func StoreNews(nw News) {
 	}
 }
 
-
 /*
 *	Gets all news from database and returns a slice
 */

@@ -9,11 +9,7 @@ import PinterestIcon from '@material-ui/icons/Pinterest';
 import './css/home/home.css'
 import './css/shared/main.css'
 
-var mock_art = [
-  {title: "Nowy sprzęt ", date:"27.01.2020", content:"Zakup najnowszego sprzętu najwyższej klasy. Pozwala to na niezapomniane wrażenia z prowadzonych imprez, co za tym idzie wyjątkowe wspomnienia. Dokładny opis znajduję się w sekcji 'O mnie'."},
-  {title: "Nowy samochód", date:"10.01.2020", content:"Zakup nowego samochodu dostawczego, który jest w stanie pomieścić cały sprzęt niezbędny na imprezie. Pozwala to na dojazd w dowolne miejsce w województwie Wielkopolskim. Więcej w sekcji 'Cennik.'"},
-  {title: "Rozbudowa strony", date:"07.01.2020" , content:"Strona internetowa, na której przebywasz jest w przebudowie, przepraszamy za utrudnienia. Niedługo na stronie zostanie dodany shoutbox z możliwością bezpośredniego i szybkiego kontaktu w celu omówienia usług i dojścia do porozumienia. W celu skorzystania z shoutboxa naciśnij przycisk po prawej stronie znajdujący się pod strzałką... "},
-  {title: "Rozbudowa strony", date:"08.01.2020", content:"Strona internetowa, na której przebywasz jest w przebudowie, przepraszamy za utrudnienia. Niedługo na stronie zostanie dodany shoutbox z możliwością bezpośredniego i szybkiego kontaktu w celu omówienia usług i dojścia do porozumienia. W celu skorzystania z shoutboxa naciśnij przycisk po prawej stronie znajdujący się pod strzałką... "}];
+var backend_news_ep = "http://127.0.0.1:8000/news"
 
 var default_style = {fontSize: 40, color:'grey', margin:4}
 
@@ -62,22 +58,34 @@ export class SocialMediaButton extends React.Component {
 }
 
 export class NewsContainer extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {news_list : []}
+  }
+
+  componentDidMount(...args){
+    fetch(backend_news_ep)
+    .then(res => res.json())
+    .then(data => { if(data){this.setState({news_list: data})}})
+    .catch(msg => console.log("Fetching news error !"))
+  }
+
   render(){
     return(
       <div className="scrollContainer">
-      <div className="newsContainer">{mock_art.map(object => <NewsPane>{object}</NewsPane>)}</div>
+        <div className="newsContainer">{this.state.news_list.map(object => <NewsPane>{object}</NewsPane>)}
+        </div>
       </div>);
   }
 }
 
 export class NewsPane extends React.Component {
   render(){
-    console.log(this.props.children)
     return(
           <div className="newsPane">
             <div className="newsHeader">
               <div className="newsHeaderText">{this.props.children.title}</div>
-              <div className="newsHeaderDate">dodano: {this.props.children.date}</div>
+              <div className="newsHeaderDate">dodano: {this.props.children.creation_date}</div>
             </div>
             <div className="newsContent"><hr></hr>{this.props.children.content}</div>
           </div>);

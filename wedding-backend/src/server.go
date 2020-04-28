@@ -27,6 +27,11 @@ func getAllNews(w http.ResponseWriter, r *http.Request) {
 	models.GetNews(&newsList)
 
 	w.Header().Set("Content-Type", "application/json")
+
+	/*
+	* CORS allowing header for development server
+	*/
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(newsList)
 }
 

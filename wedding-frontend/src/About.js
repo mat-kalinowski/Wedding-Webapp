@@ -9,8 +9,6 @@ import PinkFloyd from "./images/pink_floyd.jpg";
 import KingCrimson from "./images/king_crimson.jpg";
 import DeepPurple from "./images/deep_purple.jpg";
 
-import {ScrollField} from './ScrollField.js'
-
 import './css/shared/main.css'
 import './css/about.css'
 import './css/inspirations.css'
@@ -34,7 +32,6 @@ export class About extends React.Component {
                 <div className="introContentPane"> Muzyka jest w moim życiu praktycznie od zawsze. Ta, która będzie tworzyła klimat na Twojej
                 imprezie jest dowolna. Jeśli jednak będziesz chciał żebym współtworzył playlistę, chciałbym przedstawić
                 Ci kilka płyt, do których mam największy sentyment.</div>
-                <MusicContainer/>
               </div>
             <div className="headerPane">
               <SpeakerIcon style={{ fontSize: 50 }}/> Sprzęt</div>
@@ -66,15 +63,6 @@ export class IntroPane extends React.Component {
     );
   }
 }
-
-export class MusicContainer extends React.Component {
-  render(){
-    return(<>
-      <ScrollField list={music_bands} limit={3} component={Brick} ></ScrollField>
-      </>);
-  }
-}
-
 
 export class Brick extends React.Component {
   render(){
