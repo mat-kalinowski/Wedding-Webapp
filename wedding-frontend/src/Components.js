@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import {Home} from './Home.js'
+import {ChatBox} from './ChatBox.js'
 
 import './css/shared/menu.css'
 import './css/shared/main.css'
@@ -18,7 +19,7 @@ export class MenuBrick extends React.Component {
     var opt = this.props.children
     
     return(<NavLink to={opt.id}>
-              <div class="menuBrick">
+              <div className="menuBrick">
                 {opt.name}
               </div>
            </NavLink>);
@@ -74,13 +75,9 @@ export class Header extends React.Component {
 
 export class MainPane extends React.Component {
 
-  constructor(props){
-    super(props)
-    this.state = {height: window.innerHeight,
-                  width: window.innerWidth,
-                  borderWidth: 0}
-
-  }
+  state = { height: window.innerHeight,
+            width: window.innerWidth,
+            borderWidth: 0 }
 
   updateDimensions(){
     var menuElement = document.getElementById("menu")
@@ -111,7 +108,7 @@ export class MainPane extends React.Component {
            </div>
            <div className="navbarPane">
              <div className="navbarUpperPane">
-              <ChatBox>hejj</ChatBox>
+              <ChatBox />
              </div>
              <div className="navbarLowerPane">
                 <div className="aboutTitlePane">
@@ -124,16 +121,5 @@ export class MainPane extends React.Component {
         </div>
       </div>
       );
-  }
-}
-
-export class ChatBox extends React.Component {
-  render() {
-    
-    return(<div className="chatContainer">
-              <div className="chatHeader">Bezposredni kontakt</div>
-              <div className="chatConversationPane"></div>
-              <div className="chatInputField">Masz pytania ? Zadaj je teraz za pomoca czatu</div>
-           </div>);
   }
 }

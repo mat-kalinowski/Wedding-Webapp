@@ -13,13 +13,6 @@ import './css/shared/main.css'
 import './css/about.css'
 import './css/inspirations.css'
 
-var music_bands = [
-  {photo:PinkFloyd, name:"Pink Floyd", description:"Kultowy zespół należący do kręgu moich ulubionych. Albumem, do którego najczęściej wracam jest The Dark side of the moon"},
-  {photo:KingCrimson, name:"King Crimson", description:"Jeden z pierwszych zespołów którego słuchałem. W pamięć najbardziej zapada kultowy utwór Frame by frame"},
-  {photo:DeepPurple, name:"Deep Purple", description:"Jeden z pierwszych zespołów którego słuchałem. W pamięć najbardziej zapada kultowy utwór Frame by frame"}
-
-]
-
 export class About extends React.Component {
   render(){
     return(<>
