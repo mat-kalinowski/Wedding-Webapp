@@ -1,5 +1,8 @@
 import React from 'react'
 
+/*import SubmitButton from "./images/chat/submit_btn.png";
+import SubmitButtonHover from "./images/chat/submit_btn_hover.png"
+*/
 import './css/shared/chat.css'
 
 var chat_endpoint = "ws://127.0.0.1:8000/ws" 
@@ -85,7 +88,7 @@ export class ChatMessageBox extends React.Component {
             <div className="chatMessageBox">
                 <input className="chatInputField" onChange={this.textChangeHandler} onClick={this.startTypeHandler}
                        onKeyDown={this.keyDownHandler} value={this.state.text}></input>
-                <button type="submit" onClick={this.sendMessage} className="sendMessageButton">hej</button>
+                <button type="submit" onClick={this.sendMessage} className="sendMessageButton"></button>
             </div>)
     }
 }
