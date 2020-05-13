@@ -1,0 +1,11 @@
+.headerContainer{
+    background-color: grey;
+    width: auto;
+    height: 50px;
+    padding: 20px;
+
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    text-align: left;
+}

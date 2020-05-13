@@ -1,0 +1,7 @@
+.contentContainer{
+    margin: auto;
+    width: 66%;
+    padding: 10px;
+    background-color: beige;
+    min-height: 400px;
+}

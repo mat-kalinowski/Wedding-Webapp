@@ -1,0 +1,22 @@
+.menuContainer {
+    width: auto;
+    height: 50px;
+
+    background-color: grey;
+
+    display: flex;
+    justify-content: center;
+}
+
+.menuBrick {
+    height: auto;
+    width: 80px;
+    background-color: blue;
+    text-align: center;
+    line-height: 30px;
+    margin-left: 10px;
+}
+
+.menuBrickClicked {
+
+}
