@@ -1,12 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {
   Route,
   NavLink,
-  HashRouter
 } from "react-router-dom";
 
-import {Home} from './Home.js'
 import {ChatBox} from './ChatBox.js'
 
 import './css/shared/menu.css'
@@ -27,10 +24,6 @@ export class MenuBrick extends React.Component {
 }
 
 export class MenuContainer extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount(...args) {
     window.addEventListener('scroll', this.handleScroll);

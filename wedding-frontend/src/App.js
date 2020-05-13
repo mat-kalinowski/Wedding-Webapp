@@ -1,17 +1,11 @@
 import React from 'react';
-import {
-  Route,
-  NavLink,
-  HashRouter
-} from "react-router-dom";
+import { HashRouter } from "react-router-dom"
 
-import './css/shared/main.css';
+import './css/shared/main.css'
 
 import {MenuContainer,
-        MenuBrick,
         Header,
-        MainPane,
-        HeaderPane} from './Components.js'
+        MainPane} from './Components.js'
 import {Home} from './Home.js'
 import {About} from './About.js'
 import {Opinions} from './Opinions.js'
