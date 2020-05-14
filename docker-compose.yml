@@ -16,9 +16,12 @@ services:
                         - "3000:3000"
                 volumes:
                         - ./wedding-frontend/src:/node/src
-                #admin-frontend:
-                #build: ./wedding-admin-frontend
-                #ports:
-                        #- "3030:3030"
-                #volumes:
-               #        - ./wedding-admin-frontend/src:/node/src
+                        - ./wedding-frontend/public:/node/public
+        
+        admin-frontend:
+                build: ./wedding-admin-frontend
+                ports:
+                        - "3030:3000"
+                volumes:
+                        - ./wedding-admin-frontend/src:/node/src
+                        - ./wedding-admin-frontend/public:/node/public
