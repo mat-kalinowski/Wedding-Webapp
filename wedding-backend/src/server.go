@@ -2,10 +2,11 @@ package main
 
 import (
 	"github.com/mat-kalinowski/wedding-backend/models"
-	"github.com/gorilla/mux"
+
 	"fmt"
 	"net/http"
 	"encoding/json"
+	"github.com/gorilla/mux"
 )
 
 func main(){
@@ -17,6 +18,7 @@ func main(){
 	router.HandleFunc("/news", getAllNews).Methods("GET")
 	router.HandleFunc("/news", storeNews).Methods("POST")
 	router.HandleFunc("/news", deleteNews).Methods("DELETE")
+	models.SetupRoutes(router)
 
 	http.ListenAndServe(":8000", router)
 }
