@@ -14,7 +14,7 @@ function App(){
   return(<HashRouter>
           <Header/>
           <Menu menuList={menuList} />
-          <ContentPane />
+          <ContentPane menuList={menuList} />
         </HashRouter>)
 }
 

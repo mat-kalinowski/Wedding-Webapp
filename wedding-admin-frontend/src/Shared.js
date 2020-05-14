@@ -15,7 +15,9 @@ function Header(props){
 }
 
 function ContentPane(props){
-    return <div className="contentContainer">Tutaj bedzie tresc strony administratora</div>
+    return <div className="contentContainer">
+            {props.menuList.map(o => <Route path={o.id} component={o.class} />)}
+           </div>
 }
 
 function Menu(props){
@@ -27,10 +29,8 @@ function Menu(props){
 function MenuBrick(props){
     var opt = props.children
 
-    console.log(opt)
-
-    return (<NavLink to={opt.id}>
-              <a className="menuBrick">{opt.name}</a>
+    return (<NavLink className="menuBrick" to={opt.id}>
+              {opt.name}
             </NavLink>);
 }
 
