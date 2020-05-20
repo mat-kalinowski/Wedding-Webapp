@@ -3,5 +3,49 @@
     width: 66%;
     padding: 10px;
     background-color: beige;
-    min-height: 400px;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.newsListContainer{
+    width: auto;
+}
+
+.newsListBrick{
+    display: flex;
+    background-color: grey;
+    align-items: center;
+}
+
+.newsListBar{
+    width: auto;
+    background-color: white;
+    margin: 5px;
+}
+
+.newsAccordion{
+    width:auto;
+    background-color: white;
+    padding: 40px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.newsInputPane {    
+    font-family: Arial, Helvetica, sans-serif;  
+    display:flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+}
+
+.newsHeaderPane{
+    width: 70%;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.newsEditionPane{
+    width: 30%;
 }

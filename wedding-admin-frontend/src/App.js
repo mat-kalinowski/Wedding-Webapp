@@ -4,8 +4,9 @@ import { HashRouter } from "react-router-dom"
 import {Header,
         Menu,
         ContentPane,
-        News,
-        Chat } from './Shared.js'
+        News } from './Shared.js'
+
+import Chat from './Chat.js'
 
 var menuList = [{name: "News", id: "/news", class: News},
                 {name: "Chat", id: "/chat", class: Chat}];
