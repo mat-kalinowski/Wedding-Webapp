@@ -5,6 +5,12 @@ CREATE TABLE IF NOT EXISTS news (
     date          TEXT
 );
 
+CREATE TABLE IF NOT EXISTS admins (
+    id      INTEGER PRIMARY KEY,
+    username    TEXT,
+    password    TEXT
+)
+
 /*CREATE TABLE IF NOT EXISTS messages (
 
 );

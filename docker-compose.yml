@@ -22,6 +22,8 @@ services:
                 build: ./wedding-admin-frontend
                 ports:
                         - "3030:3000"
+                environment:
+                        - CI=true
                 volumes:
                         - ./wedding-admin-frontend/src:/node/src
                         - ./wedding-admin-frontend/public:/node/public

@@ -15,13 +15,42 @@ func main(){
 	router := mux.NewRouter()
 	models.InitDB()
 
+	models.CreateAdminUser(models.User{Username: "mateusz", Password: "nakamura"})
+
+	router.HandleFunc("/news", corsHandler).Methods("OPTIONS")
 	router.HandleFunc("/news", getAllNews).Methods("GET")
-	router.HandleFunc("/news", storeNews).Methods("POST")
-	router.HandleFunc("/news", deleteNews).Methods("DELETE")
+	router.Handle("/news", AuthMiddleware(http.HandlerFunc(storeNews))).Methods("POST")
+	router.Handle("/news", AuthMiddleware(http.HandlerFunc(deleteNews))).Methods("DELETE")
 	models.SetupRoutes(router)
+	SetupRoutes(router)
 
 	http.ListenAndServe(":8000", router)
 }
+
+func corsHandler(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+}
+
+/*
+*	Temporary development stage CORS preflight handler
+*/
+
+/*func corsHandler(fn http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Printf("Method asked => %s\n", r.Method)
+	  if (r.Method == "OPTIONS") {
+		fmt.Printf("Handling OPTIONS preflight request\n")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	  } else {
+		fmt.Printf("Handling normal request\n")
+		fn(w,r)
+	  }
+	}
+}*/
 
 func getAllNews(w http.ResponseWriter, r *http.Request) {
 	var newsList []models.News
@@ -48,6 +77,7 @@ func storeNews(w http.ResponseWriter, r *http.Request) {
 
 	models.StoreNews(currNews)
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 }
 
@@ -62,5 +92,6 @@ func deleteNews(w http.ResponseWriter, r *http.Request) {
 
 	models.DeleteNews(delNews)
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 }
