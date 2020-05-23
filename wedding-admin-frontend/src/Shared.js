@@ -32,10 +32,10 @@ function Menu(props){
 }
 
 function MenuBrick(props){
-    var opt = props.children
+    var o = props.children
 
-    return (<NavLink className="menuBrick" to={opt.id}>
-              {opt.name}
+    return (<NavLink className="menuBrick" to={o.id}>
+              {o.name}
             </NavLink>);
 }
 
@@ -60,9 +60,11 @@ function News(props){
     }, [newsUpdate])
 
     const updateNews = useCallback((o) => {
-        console.log(o)
+        var authToken = "Bearer " + localStorage.getItem("auth-token")
+
         var reqData = { method: "POST",
-                        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+                        headers: {'Content-Type': 'application/json; charset=UTF-8',
+                                  'Authorization': authToken},
                         body: JSON.stringify(o)}
 
         fetch(newsEp, reqData)
@@ -72,8 +74,11 @@ function News(props){
     },[])
 
     const deleteNews = useCallback((o) => {
+        var authToken = "Bearer " + localStorage.getItem("auth-token")
+
         var reqData = { method: "DELETE",
-                        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+                        headers: {'Content-Type': 'application/json; charset=UTF-8',
+                                  'Authorization': authToken},
                         body: JSON.stringify(o)}
 
         fetch(newsEp, reqData)
@@ -133,7 +138,6 @@ function NewsAccordion(props){
     })
 
     const handleChange = useCallback((e) => {
-       console.log(`data gathered from multiple inputs: ${value}`)
 
        setValue({
            ...value,

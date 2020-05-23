@@ -1,0 +1,64 @@
+.loginForm {
+    margin: 0;
+    border: 2px solid #c4c2c1;
+    border-radius: 20px;
+
+    width: 250px;
+    padding: 20px;
+    
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #c4c2c1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginPageContainer {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.loginErrorBox {
+    color: #b52318;
+    background-color: coral;
+    border: 2px solid #b52318;
+    border-radius: 10px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+
+    padding: 10px;
+    width: 260px;
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.loginHeader {
+    width: 25%;
+    padding: 25px;
+    font-size: 30px;
+}
+
+input{
+    display: block;
+    font-size: 16px;
+    margin-bottom: 12px;
+    margin-top: 4px;
+    padding: 4px;
+}
+
+body, html {
+    height: 100%;
+    margin: auto;
+}
+
+  
+
