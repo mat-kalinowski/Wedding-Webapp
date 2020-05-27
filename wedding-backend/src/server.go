@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/mat-kalinowski/wedding-backend/models"
+	"github.com/mat-kalinowski/wedding-backend/chat"
+	auth "github.com/mat-kalinowski/wedding-backend/authorization"
 
 	"fmt"
 	"net/http"
@@ -18,11 +20,14 @@ func main(){
 	models.CreateAdminUser(models.User{Username: "mateusz", Password: "nakamura"})
 
 	router.HandleFunc("/news", corsHandler).Methods("OPTIONS")
+	router.HandleFunc("/admin/login", corsHandler).Methods("OPTIONS")
+
 	router.HandleFunc("/news", getAllNews).Methods("GET")
-	router.Handle("/news", AuthMiddleware(http.HandlerFunc(storeNews))).Methods("POST")
-	router.Handle("/news", AuthMiddleware(http.HandlerFunc(deleteNews))).Methods("DELETE")
-	models.SetupRoutes(router)
-	SetupRoutes(router)
+	router.Handle("/news", auth.AuthMiddleware(http.HandlerFunc(storeNews))).Methods("POST")
+	router.Handle("/news", auth.AuthMiddleware(http.HandlerFunc(deleteNews))).Methods("DELETE")
+
+	chat.SetupRoutes(router)
+	auth.SetupRoutes(router)
 
 	http.ListenAndServe(":8000", router)
 }
@@ -31,7 +36,6 @@ func corsHandler(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-
 }
 
 /*
