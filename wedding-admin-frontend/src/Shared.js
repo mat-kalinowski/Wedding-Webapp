@@ -12,7 +12,6 @@ import './css/menu.css'
 import './css/header.css'
 import './css/main.css'
 
-
 export {Menu, Header, ContentPane, News}
 
 function Header(props){
