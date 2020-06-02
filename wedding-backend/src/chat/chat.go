@@ -3,56 +3,57 @@ package chat
 import ( 
     auth "github.com/mat-kalinowski/wedding-backend/authorization"
 
-    "sync"
-	"log"
+	"fmt"
     "net/http"
-    "net"
 	"github.com/gorilla/websocket"
 	"github.com/gorilla/mux"
 )
 
-type AdminConn struct {
-    conn *websocket.Conn
-    dataLock *sync.Mutex
+type Message struct {
+    recipient string `json: recipient`
+    sender string `json: sender`
+	msg string `json: msg`
+}
+
+type User interface {
+    getID() string
 }
 
 type Hub struct {
-    clients map[string]*Client
-    admin AdminConn,
-    register chan *Client
-    unregister chan *Client
+    users map[string]User
+
+    register chan User
+    unregister chan User
     send chan []byte
 }
 
 func newHub() *Hub {
     return &Hub{
-        clients: make(map[string]bool),
-        register: make(chan *Client),
-        unregister: make(chan *Client),
+        users: make(map[string] User),
+        register: make(chan User),
+        unregister: make(chan User),
         send: make(chan []byte),
     }
-}
+} 
 
 var hub *Hub
 
 func (h *Hub) run(){
     for{
         select{
-            case c:= <-h.register :
-                if h.clients[c.ip.String()] == nil{
-                    h.clients[c.ip.String()] = c
+            case u:= <-h.register :
+                if h.users[u.getID()] == nil{
+                    h.users[u.getID()] = u
                 }
                 
-            case c:= <-h.unregister :
-                delete(h.clients, c.ip.String()) 
+            case u:= <-h.unregister :
+                delete(h.users, u.getID()) 
             
             case msg:= <-h.send :
-                log.printf("message from client : %s", msg)
-                h.admin.conn.WriteMessage(websocket.TextMessage, msg)
-
-            case msg:= h.admin.conn.ReadMessage() :
-                log.Printf("message from admin : %s", msg)
-                //strip ip number and chose given client
+                fmt.Printf("message from user : %s\n", msg)
+                /* 
+                * identify recipient and
+                */
         }
     }
 }
@@ -63,20 +64,8 @@ var upgrader = websocket.Upgrader{
   	CheckOrigin: func(r *http.Request) bool { return true },
 }
 
-func adminWsHandler(w http.ResponseWriter, r *http.Request) {
-    ws, err := upgrader.Upgrade(w, r, nil)
-
-    if err != nil {
-        log.Println(err)
-    }
-
-    h.admin.dataLock.Lock()
-    h.admin.conn = ws.Conn
-    h.admin.dataLock.Unlock()
-}
-
 func SetupRoutes(router *mux.Router) {
-    hub := newHub()
+    hub = newHub()
     go hub.run()
 
     router.HandleFunc("/ws", serveWs).Methods("GET")
