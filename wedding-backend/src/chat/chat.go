@@ -3,23 +3,22 @@ package chat
 import ( 
     auth "github.com/mat-kalinowski/wedding-backend/authorization"
 
-	"fmt"
     "net/http"
 	"github.com/gorilla/websocket"
 	"github.com/gorilla/mux"
 )
 
 type Message struct {
-    recipient string `json: recipient`
-    sender string `json: sender`
-	msg string `json: msg`
+    Recipient string `json:"recipient"`
+    Sender string `json:"sender"`
+	Content string `json:"content"`
 }
 
 type User struct {
     id string
 	hub *Hub
 	conn *websocket.Conn
-	send chan []byte
+	send chan *Message
 }
 
 type Hub struct {
@@ -27,7 +26,7 @@ type Hub struct {
 
     register chan *User
     unregister chan *User
-    send chan []byte
+    send chan *Message
 }
 
 func newHub() *Hub {
@@ -35,7 +34,7 @@ func newHub() *Hub {
         users: make(map[string] *User),
         register: make(chan *User),
         unregister: make(chan *User),
-        send: make(chan []byte),
+        send: make(chan *Message),
     }
 } 
 
@@ -53,10 +52,7 @@ func (h *Hub) run(){
                 delete(h.users, u.id) 
             
             case msg:= <-h.send :
-                fmt.Printf("message from user : %s\n", msg)
-                /* 
-                * identify recipient and
-                */
+                h.users[msg.Recipient].send <- msg
         }
     }
 }

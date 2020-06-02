@@ -4,19 +4,14 @@ import (
 	"fmt"
 
 	"net/http"
-	//"encoding/json"
 	"github.com/gorilla/websocket"
 )
-
-/*
-* message should be stripped from sender and recipient
-*/
 
 func (c *User) clientReader(){
 	for {
 		msg := <-c.send
 
-		c.conn.WriteMessage(websocket.TextMessage, msg)
+		c.conn.WriteMessage(websocket.TextMessage, []byte(msg.Content))
 	}
 }
 
@@ -31,13 +26,7 @@ func (c *User) clientWriter(){
 			return
 		}
 
-		/*jsonMsg, err := json.Marshall(&Message{string(c.ip), "admin" msg})
-
-		if err != nil {
-			fmt.Printf("Cannot encode client message to json struct: %s\n", err)
-		}*/
-
-		c.hub.send <- msg
+		c.hub.send <- &Message{"admin", c.id, string(msg)}
 	}
 }
 
@@ -49,9 +38,7 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 		return 
 	}
 
-	fmt.Printf("registering client : %s\n", hub)
-
-	client := &User{id: r.RemoteAddr, hub: hub, conn: ws, send: make(chan []byte)}
+	client := &User{id: r.RemoteAddr, hub: hub, conn: ws, send: make(chan *Message)}
 	hub.register <- client
 
 	go client.clientWriter()
