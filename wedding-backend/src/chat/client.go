@@ -8,22 +8,11 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type Client struct {
-	ip string
-	hub *Hub
-	conn *websocket.Conn
-	send chan []byte
-}
-
-func (c *Client) getID() string {
-	return c.ip
-}
-
 /*
 * message should be stripped from sender and recipient
 */
 
-func (c *Client) reader(){
+func (c *User) clientReader(){
 	for {
 		msg := <-c.send
 
@@ -31,7 +20,7 @@ func (c *Client) reader(){
 	}
 }
 
-func (c *Client) writer(){
+func (c *User) clientWriter(){
 	for {
 		_, msg, err := c.conn.ReadMessage()
 
@@ -62,10 +51,10 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("registering client : %s\n", hub)
 
-	client := &Client{ip: r.RemoteAddr, hub: hub, conn: ws, send: make(chan []byte)}
+	client := &User{id: r.RemoteAddr, hub: hub, conn: ws, send: make(chan []byte)}
 	hub.register <- client
 
-	go client.writer()
-	go client.reader()
+	go client.clientWriter()
+	go client.clientReader()
 }
 

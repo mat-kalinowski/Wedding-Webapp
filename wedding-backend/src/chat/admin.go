@@ -7,17 +7,8 @@ import (
 )
 
 
-type Admin struct {
-	hub *Hub
-	conn *websocket.Conn
-    send chan []byte
-}
 
-func (a *Admin) getID() string {
-	return "admin"
-}
-
-func (a *Admin) reader(){
+func (a *User) adminReader(){
 	for {
 		msg := <-a.send
 
@@ -25,7 +16,7 @@ func (a *Admin) reader(){
 	}
 }
 
-func (a *Admin) writer(){
+func (a *User) adminWriter(){
 	for {
 		_, msg, err := a.conn.ReadMessage()
 
@@ -55,10 +46,10 @@ func adminWsHandler(w http.ResponseWriter, r *http.Request, ) {
 
 	fmt.Printf("Registering admin user: %s\n", hub)
 	
-	admin := &Admin{hub: hub, conn: ws, send: make(chan []byte)}
+	admin := &User{id: "admin", hub: hub, conn: ws, send: make(chan []byte)}
 
 	hub.register <- admin
 
-	go admin.writer()
-	go admin.reader()
+	go admin.adminWriter()
+	go admin.adminReader()
 }

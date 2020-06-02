@@ -15,23 +15,26 @@ type Message struct {
 	msg string `json: msg`
 }
 
-type User interface {
-    getID() string
+type User struct {
+    id string
+	hub *Hub
+	conn *websocket.Conn
+	send chan []byte
 }
 
 type Hub struct {
-    users map[string]User
+    users map[string]*User
 
-    register chan User
-    unregister chan User
+    register chan *User
+    unregister chan *User
     send chan []byte
 }
 
 func newHub() *Hub {
     return &Hub{
-        users: make(map[string] User),
-        register: make(chan User),
-        unregister: make(chan User),
+        users: make(map[string] *User),
+        register: make(chan *User),
+        unregister: make(chan *User),
         send: make(chan []byte),
     }
 } 
@@ -42,12 +45,12 @@ func (h *Hub) run(){
     for{
         select{
             case u:= <-h.register :
-                if h.users[u.getID()] == nil{
-                    h.users[u.getID()] = u
+                if h.users[u.id] == nil{
+                    h.users[u.id] = u
                 }
                 
             case u:= <-h.unregister :
-                delete(h.users, u.getID()) 
+                delete(h.users, u.id) 
             
             case msg:= <-h.send :
                 fmt.Printf("message from user : %s\n", msg)
