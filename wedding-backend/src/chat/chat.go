@@ -3,6 +3,7 @@ package chat
 import ( 
     auth "github.com/mat-kalinowski/wedding-backend/authorization"
 
+    "fmt"
     "net/http"
 	"github.com/gorilla/websocket"
 	"github.com/gorilla/mux"
@@ -11,7 +12,8 @@ import (
 type Message struct {
     Recipient string `json:"recipient"`
     Sender string `json:"sender"`
-	Content string `json:"content"`
+    Content string `json:"content"`
+    Type string `json:"type"`
 }
 
 type User struct {
@@ -52,7 +54,10 @@ func (h *Hub) run(){
                 delete(h.users, u.id) 
             
             case msg:= <-h.send :
-                h.users[msg.Recipient].send <- msg
+
+                if h.users[msg.Recipient] != nil {
+                    h.users[msg.Recipient].send <- msg
+                }
         }
     }
 }

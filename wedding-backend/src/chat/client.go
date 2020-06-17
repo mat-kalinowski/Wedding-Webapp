@@ -23,10 +23,14 @@ func (c *User) clientWriter(){
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway){
 				fmt.Printf("Connection with client closed unexpectedly\n")
 			}
+
+			c.hub.send <- &Message{"admin", c.id, "", "disconnect"}
 			return
 		}
 
-		c.hub.send <- &Message{"admin", c.id, string(msg)}
+		c.hub.send <- &Message{"admin", c.id, string(msg), "message"}
+
+		// TODO: add message to database
 	}
 }
 
