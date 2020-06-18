@@ -21,11 +21,11 @@ const actionHandlers = {
 
         if(!conv && msg.type === "message"){
             convMap = state.set(msg.sender, {state: "open",
-            messages: [{sender: msg.sender, content: msg.content}]})
+            messages: [{sender: msg.sender, content: msg.content.slice(1,-1)}]})
 
         }
         else if(conv && msg.type === "message" ){
-            conv.messages.push({sender: msg.sender, content: msg.content})
+            conv.messages.push({sender: msg.sender, content: msg.content.slice(1,-1)})
             conv.state = "open"
 
             convMap = state.set(msg.sender, conv)
@@ -42,7 +42,7 @@ const actionHandlers = {
         var convMap = _.cloneDeep(state)
         var conv = convMap.get(msg.recipient)
 
-        console.log("new message from admin \n")
+        console.log(msg.content)
 
         if(conv && conv.state === "open"){
             conv.messages.push({sender: msg.sender, content: msg.content})
@@ -96,7 +96,7 @@ function Chat(props){
             payload: message
         }
 
-        ws.current.send(message)
+        ws.current.send(JSON.stringify(message))
         changeConversation(action)
     })
 
@@ -124,12 +124,16 @@ function ConversationPane(props) {
 
     return (<div style={{width: "100%"}}>
                 <div className="conversationPane">{conversation && 
-                    conversation.messages.map(o =>
-                        <div className="messageBox">{o.content.slice(1, -1)}</div>
-                    )}
+                    conversation.messages.map(o =>{
+                        const inlineStyle = o.sender === "admin" ? {backgroundColor: '#c6bccf', alignSelf: 'flex-end'} 
+                                                                : {backgroundColor: '#cecfbc', alignSelf: "flex-start"}
+
+                        return <div className="messageBox" style={inlineStyle}>{o.content}</div>
+                    }
+                )}
                 </div>
 
-                <textarea onChange={textTypingHandler} value={message} 
+                <textarea rows="1" onChange={textTypingHandler} value={message} 
                             onKeyDown={keyDownHandler} className="messageInput"></textarea>
             </div>)
 }

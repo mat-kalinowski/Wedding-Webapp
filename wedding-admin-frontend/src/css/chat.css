@@ -1,4 +1,7 @@
 .conversationPane {
+    display: flex;
+    flex-direction: column;
+
     width: auto;
     height: 80%;
 
@@ -14,7 +17,14 @@
     height: auto;
 
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 16px;
+    padding: 10px;
+
+    box-sizing: border-box;
+
+    overflow: auto;
+    outline: none;
+    resize: none;
 }
 
 .chatContainer {
@@ -60,7 +70,6 @@
 }
 
 .messageBox {
-    background-color: #c6bccf;
     display: inline-block;
 
     border-radius: 8px 8px 8px 0px;
