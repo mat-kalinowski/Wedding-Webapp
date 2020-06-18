@@ -7,33 +7,66 @@ const { Map } = require('immutable');
 
 var _ = require('lodash');
 
-function conversationReducer(state, action){
-    var convMap = _.cloneDeep(state)
-    var conv = convMap.get(action.sender)
+const actionTypes = {
+    clientMessage: "CLIENT_MESSAGE",
+    adminMessage: "ADMIN_MESSAGE",
+};
 
-    switch(action.type){
-        case 'message':
-            if(conv){
-                conv.messages.push({sender: action.sender, content: action.content})
-                convMap = state.set(action.sender, conv)
-            }
-            else{
-                convMap = state.set(action.sender, {state: "open",
-                                                    messages: [{sender: action.sender, content: action.content}]})
-            }
-            break;
-        case 'disconnect':
-            if(conv){
-                convMap = state.set(action.sender, {state: "history", messages: conv.messages})
-            }
-            break;
-        default:
-            console.log("unknown message type\n")
+const actionHandlers = {
+    ["CLIENT_MESSAGE"] (state, msg) {
+        var convMap = _.cloneDeep(state)
+        var conv = convMap.get(msg.sender)
+
+        console.log("new message from client \n")
+
+        if(!conv && msg.type === "message"){
+            convMap = state.set(msg.sender, {state: "open",
+            messages: [{sender: msg.sender, content: msg.content}]})
+
+        }
+        else if(conv && msg.type === "message" ){
+            conv.messages.push({sender: msg.sender, content: msg.content})
+            conv.state = "open"
+
+            convMap = state.set(msg.sender, conv)
+        }
+        else if(conv && msg.type === "disconnect"){
+            convMap = state.set(msg.sender, {state: "history", messages: conv.messages})
+
+            console.log("client has disconnected - conversation moved to history\n")
+        }
+
+        return convMap
+    },
+    ["ADMIN_MESSAGE"] (state, msg) {
+        var convMap = _.cloneDeep(state)
+        var conv = convMap.get(msg.recipient)
+
+        console.log("new message from admin \n")
+
+        if(conv && conv.state === "open"){
+            conv.messages.push({sender: msg.sender, content: msg.content})
+            convMap = state.set(msg.recipient, conv)
+        }
+        else if(conv && conv.state === "history"){
+            console.log("cannot reply on history message\n")
+        }
+
+        return convMap
+    }
+}
+
+function conversationReducer(state, action){
+    const { type, payload } = action
+    const actionHandler = actionHandlers[type]
+
+    console.log("new message\n")
+
+    if (actionHandler) {
+      return actionHandler(state, payload)
     }
 
-    console.log(convMap.get(action.sender))
-
-    return convMap
+    return state
 }
 
 function Chat(props){
@@ -47,14 +80,24 @@ function Chat(props){
     useEffect(() => {
         ws.current = new WebSocket(wsEp)
         ws.current.onmessage = (msg) => {
-            changeConversation(JSON.parse(msg.data))
+            var action = {
+                type: actionTypes.clientMessage,
+                payload: JSON.parse(msg.data)
+            }
+
+            changeConversation(action)
         }
     }, [])
 
     const submitMessage = useCallback((msg) => {
-        var message = {recipient: "mama", sender:"admin", content: msg}
+        var message = {recipient: activeSender, sender:"admin", content: msg}
+        var action = {
+            type: actionTypes.adminMessage,
+            payload: message
+        }
 
         ws.current.send(message)
+        changeConversation(action)
     })
 
     return <div className="chatContainer">
