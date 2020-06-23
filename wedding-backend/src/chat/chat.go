@@ -3,16 +3,15 @@ package chat
 import ( 
     auth "github.com/mat-kalinowski/wedding-backend/authorization"
 
-    "fmt"
     "net/http"
 	"github.com/gorilla/websocket"
 	"github.com/gorilla/mux"
 )
 
 type Message struct {
-    Recipient string `json:"recipient"`
-    Sender string `json:"sender"`
-    Content string `json:"content"`
+    Recipient string `json:"recipient" db:"recipient"`
+    Sender string `json:"sender" db:"sender"`
+    Content string `json:"content db:"content"`
     Type string `json:"type"`
 }
 
@@ -40,6 +39,8 @@ func newHub() *Hub {
     }
 } 
 
+var clientBuffer []Message
+
 var hub *Hub
 
 func (h *Hub) run(){
@@ -54,7 +55,6 @@ func (h *Hub) run(){
                 delete(h.users, u.id) 
             
             case msg:= <-h.send :
-
                 if h.users[msg.Recipient] != nil {
                     h.users[msg.Recipient].send <- msg
                 }
@@ -68,10 +68,23 @@ var upgrader = websocket.Upgrader{
   	CheckOrigin: func(r *http.Request) bool { return true },
 }
 
+func getConversations(w http.ResponseWriter, r *http.Request){
+    var convs []models.Conversation
+
+	convs = models.GetConversations(convs)
+
+	w.Header().Set("Content-Type", "application/json")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    
+	json.NewEncoder(w).Encode(convs)
+}
+
 func SetupRoutes(router *mux.Router) {
     hub = newHub()
     go hub.run()
 
     router.HandleFunc("/ws", serveWs).Methods("GET")
     router.Handle("/admin/ws", auth.AuthMiddleware(http.HandlerFunc(adminWsHandler))).Methods("GET")
+
+    router.Handle("/admin/conversation", auth.AuthMiddleware(http.HandlerFunc())).Methods("GET")
 }

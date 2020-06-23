@@ -28,9 +28,10 @@ func (c *User) clientWriter(){
 			return
 		}
 
-		c.hub.send <- &Message{"admin", c.id, string(msg), "message"}
+		var serMsg = Message{"admin", c.id, string(msg), "message"}
 
-		// TODO: add message to database
+		c.hub.send <- &serMsg
+		StoreMessage(serMsg) 
 	}
 }
 

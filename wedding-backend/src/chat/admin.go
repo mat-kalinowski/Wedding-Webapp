@@ -15,6 +15,7 @@ func (a *User) adminReader(){
 
 		if err != nil {
 			fmt.Printf("Cannot encode client message to json struct: %s\n", err)
+			return
 		}
 
 		a.conn.WriteMessage(websocket.TextMessage, jsonMsg)
@@ -23,13 +24,13 @@ func (a *User) adminReader(){
 
 func (a *User) adminWriter(){
 	for {
-		var jsonMsg *Message
+		var jsonMsg *Message = &Message{}
 
 		_, msg, err := a.conn.ReadMessage()
 
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway){
-				fmt.Printf("Connection with client closed unexpectedly\n")
+				fmt.Printf("Connection with admin closed unexpectedly\n")
 			}
 			return
 		}
@@ -38,9 +39,11 @@ func (a *User) adminWriter(){
 
 		if err != nil {
 			fmt.Printf("Cannot encode client message to json struct: %s\n", err)
+			return
 		}
 
 		a.hub.send <- jsonMsg
+		storeMessage(jsonMsg)
 	}
 }
 
