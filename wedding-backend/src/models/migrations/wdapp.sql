@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS admins (
     id      INTEGER PRIMARY KEY,
     username    TEXT,
     password    TEXT
-)
+);
 
 /*
 * state -> 0 conversation is currently closed
@@ -23,7 +23,9 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS messages (
     id      INTEGER PRIMARY KEY,
-    FOREIGN KEY(sender) REFERENCES users(id) ON DELETE CASCADE and ON UPDATE CASCADE,
-    FOREIGN KEY(recipient) REFERENCES users(id) ON DELETE CASCADE and ON UPDATE CASCADE,
+    recipient TEXT,
+    sender TEXT,
     content TEXT,
+    FOREIGN KEY(sender) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(recipient) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 ); 

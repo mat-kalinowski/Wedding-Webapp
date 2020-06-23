@@ -3,17 +3,23 @@ package models
 import (
 	"log"
 	"database/sql"
-	"github.com/mat-kalinowski/wedding-backend/chat"
 )
 
 type Client struct{
-	Id string `db:"id"`
+	Id string `json:"id" db:"id"`
 	State string `json:"state" db:"state"`
 }
 
 type Conversation struct {
-	User Client
-	Messages []chat.Message `json:"messages`
+	User Client `json:"user"`
+	Messages []Message `json:"messages"`
+}
+
+type Message struct {
+    Recipient string `json:"recipient" db:"recipient"`
+    Sender string `json:"sender" db:"sender"`
+    Content string `json:"content" db:"content"`
+    Type string `json:"type"`
 }
 
 /*
@@ -33,6 +39,8 @@ func GetConversations(convs []Conversation) []Conversation{
 
 	rows, err := db.Queryx("SELECT * FROM users")
 
+	log.Printf("Getting conversations from database\n")
+
 	for rows.Next() {
 		err = rows.StructScan(&conv.User)
 		
@@ -42,7 +50,7 @@ func GetConversations(convs []Conversation) []Conversation{
 	
 		log.Printf("%#v\n", conv.User)
 		
-		err = db.Select(&conv.Messages, "SELECT * FROM messages WHERE sender=? OR recipient=?", conv.User.Id, conv.User.Id)
+		err = db.Select(&conv.Messages, "SELECT recipient, sender, content FROM messages WHERE sender=? OR recipient=?", conv.User.Id, conv.User.Id)
 
 		if err != nil {
 			log.Fatalln(err)
@@ -75,17 +83,20 @@ func GetConversations(convs []Conversation) []Conversation{
 * If client user is not present in users table, given record will be added
 */
 
-func StoreMessage(msg chat.Message){
-	searchQuery := `SELECT (id, state) FROM users WHERE user=?`
+func StoreMessage(msg Message){
+	searchQuery := `SELECT id, state FROM users WHERE id=?`
 	insertQuery := `INSERT INTO messages (sender, recipient, content) VALUES (?, ?, ?)`
 
 	var currUser Client
 	var err error
 
 	if msg.Sender != "admin" {
+		log.Printf("sender is not an admin, additional check \n")
 		err = db.Get(&currUser, searchQuery, msg.Sender)
 
+		log.Printf("error value: %s\n", err)
 		if err == sql.ErrNoRows {
+			log.Printf("inserting user into database \n")
 			_, err := db.Exec("INSERT INTO users (id, state) VALUES (?, ?)", msg.Sender, "open")
 	
 			if err != nil {
@@ -108,7 +119,3 @@ func StoreMessage(msg chat.Message){
 		log.Printf("Couldn't insert message into database!\n")
 	}
 }
-
-/*func CloseConversation(user string){
-	updateQuery := ``
-}*/

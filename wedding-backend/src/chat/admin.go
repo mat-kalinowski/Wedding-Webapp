@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"github.com/gorilla/websocket"
 	"net/http"
+
+	"github.com/mat-kalinowski/wedding-backend/models"
 )
 
 func (a *User) adminReader(){
@@ -24,7 +26,7 @@ func (a *User) adminReader(){
 
 func (a *User) adminWriter(){
 	for {
-		var jsonMsg *Message = &Message{}
+		var jsonMsg *models.Message = &models.Message{}
 
 		_, msg, err := a.conn.ReadMessage()
 
@@ -43,7 +45,7 @@ func (a *User) adminWriter(){
 		}
 
 		a.hub.send <- jsonMsg
-		storeMessage(jsonMsg)
+		models.StoreMessage(*jsonMsg)
 	}
 }
 
@@ -54,7 +56,7 @@ func adminWsHandler(w http.ResponseWriter, r *http.Request, ) {
         fmt.Printf("Couldn't upgrade HTTP connection to websocket: %s\n", err)
 	}
 	
-	admin := &User{id: "admin", hub: hub, conn: ws, send: make(chan *Message)}
+	admin := &User{id: "admin", hub: hub, conn: ws, send: make(chan *models.Message)}
 
 	hub.register <- admin
 

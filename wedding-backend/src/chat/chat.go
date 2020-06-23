@@ -2,24 +2,19 @@ package chat
 
 import ( 
     auth "github.com/mat-kalinowski/wedding-backend/authorization"
+    "github.com/mat-kalinowski/wedding-backend/models"
 
     "net/http"
+    "encoding/json"
 	"github.com/gorilla/websocket"
 	"github.com/gorilla/mux"
 )
-
-type Message struct {
-    Recipient string `json:"recipient" db:"recipient"`
-    Sender string `json:"sender" db:"sender"`
-    Content string `json:"content db:"content"`
-    Type string `json:"type"`
-}
 
 type User struct {
     id string
 	hub *Hub
 	conn *websocket.Conn
-	send chan *Message
+	send chan *models.Message
 }
 
 type Hub struct {
@@ -27,7 +22,7 @@ type Hub struct {
 
     register chan *User
     unregister chan *User
-    send chan *Message
+    send chan *models.Message
 }
 
 func newHub() *Hub {
@@ -35,11 +30,11 @@ func newHub() *Hub {
         users: make(map[string] *User),
         register: make(chan *User),
         unregister: make(chan *User),
-        send: make(chan *Message),
+        send: make(chan *models.Message),
     }
 } 
 
-var clientBuffer []Message
+var clientBuffer []models.Message
 
 var hub *Hub
 
@@ -86,5 +81,5 @@ func SetupRoutes(router *mux.Router) {
     router.HandleFunc("/ws", serveWs).Methods("GET")
     router.Handle("/admin/ws", auth.AuthMiddleware(http.HandlerFunc(adminWsHandler))).Methods("GET")
 
-    router.Handle("/admin/conversation", auth.AuthMiddleware(http.HandlerFunc())).Methods("GET")
+    router.Handle("/conversation", auth.AuthMiddleware(http.HandlerFunc(getConversations))).Methods("GET")
 }

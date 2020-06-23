@@ -2,9 +2,11 @@ package chat
 
 import (
 	"fmt"
-
 	"net/http"
 	"github.com/gorilla/websocket"
+
+	"github.com/mat-kalinowski/wedding-backend/models"
+
 )
 
 func (c *User) clientReader(){
@@ -24,14 +26,14 @@ func (c *User) clientWriter(){
 				fmt.Printf("Connection with client closed unexpectedly\n")
 			}
 
-			c.hub.send <- &Message{"admin", c.id, "", "disconnect"}
+			c.hub.send <- &models.Message{"admin", c.id, "", "disconnect"}
 			return
 		}
 
-		var serMsg = Message{"admin", c.id, string(msg), "message"}
+		var serMsg = models.Message{"admin", c.id, string(msg), "message"}
 
 		c.hub.send <- &serMsg
-		StoreMessage(serMsg) 
+		models.StoreMessage(serMsg) 
 	}
 }
 
@@ -43,7 +45,7 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 		return 
 	}
 
-	client := &User{id: r.RemoteAddr, hub: hub, conn: ws, send: make(chan *Message)}
+	client := &User{id: r.RemoteAddr, hub: hub, conn: ws, send: make(chan *models.Message)}
 	hub.register <- client
 
 	go client.clientWriter()
