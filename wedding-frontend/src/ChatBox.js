@@ -16,13 +16,14 @@ export class ChatBox extends React.Component {
       this.ws.onclose = (e) => { console.log("websocket connection closed")}
   
       this.ws.onmessage = (e) => {
-        var msg = JSON.parse(e.data)
-        this.setState({messages: this.state.messages.concat(msg)})
+        console.log(e.data)
+        this.setState({messages: this.state.messages.concat(e.data)})
       }
     }
 
     sendMessage = (msg) => {
-        this.ws.send(JSON.stringify(msg))
+        this.ws.send(msg)
+        this.setState({messages: this.state.messages.concat(msg)})
     }
   
     render() {
@@ -81,7 +82,6 @@ export class ChatMessageBox extends React.Component {
     }
 
     render(){
-
         return(
             <div className="chatMessageBox">
                 <input className="chatInputField" onChange={this.textChangeHandler} onClick={this.startTypeHandler}

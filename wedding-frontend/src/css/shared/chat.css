@@ -65,14 +65,6 @@
     padding: 10px;
 }
 
-.chatTypingState {
-
-}
-
-.chatStaticState {
-
-}
-
 .sendMessageButton {
     background-image: url("../../images/chat/submit-btn-fat.png");
     background-color: transparent;
