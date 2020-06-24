@@ -10,14 +10,13 @@ var _ = require('lodash');
 const actionTypes = {
     clientMessage: "CLIENT_MESSAGE",
     adminMessage: "ADMIN_MESSAGE",
+    historyConversations: 'HISTORY_CONVERSATIONS',
 };
 
 const actionHandlers = {
     ["CLIENT_MESSAGE"] (state, msg) {
         var convMap = _.cloneDeep(state)
         var conv = convMap.get(msg.sender)
-
-        console.log("new message from client \n")
 
         if(!conv && msg.type === "message"){
             convMap = state.set(msg.sender, {state: "open",
@@ -32,8 +31,6 @@ const actionHandlers = {
         }
         else if(conv && msg.type === "disconnect"){
             convMap = state.set(msg.sender, {state: "history", messages: conv.messages})
-
-            console.log("client has disconnected - conversation moved to history\n")
         }
 
         return convMap
@@ -53,14 +50,21 @@ const actionHandlers = {
         }
 
         return convMap
+    },
+    ["HISTORY_CONVERSATIONS"] (state, convs) {
+        var convMap = _.cloneDeep(state)
+
+        convs.forEach((conv) => {
+            convMap = convMap.set(conv.user.id, {state: conv.user.state, messages: conv.messages})
+        })
+
+        return convMap
     }
 }
 
 function conversationReducer(state, action){
     const { type, payload } = action
     const actionHandler = actionHandlers[type]
-
-    console.log("new message\n")
 
     if (actionHandler) {
       return actionHandler(state, payload)
@@ -73,13 +77,36 @@ function Chat(props){
     var ws = useRef(null)
 
     const wsEp = "ws://127.0.0.1:8000/admin/ws?auth_token=" + localStorage.getItem("auth-token")
+    const msgEp = "http://127.0.0.1:8000/conversation?auth_token=" + localStorage.getItem("auth-token") 
 
     const [convCurrent, changeConversation] = useReducer(conversationReducer, Map({}))
     const [activeSender, changeActiveSender] = useState("")
 
+    useEffect((o) => {
+        console.log("getting conversations from history\n")
+        var reqData = { method: "GET",
+                        headers: {'Content-Type': 'application/json; charset=UTF-8'}}
+
+        fetch(msgEp, reqData)
+        .then(res => res.json())
+        .then(data => {
+            if(data){
+                var action = {
+                    type: actionTypes.historyConversations,
+                    payload: data
+                }
+    
+                changeConversation(action)
+            }
+        })
+        .catch(msg => console.log(`Cannot update news in DB: ${msg}`))
+
+    },[])
+
     useEffect(() => {
         ws.current = new WebSocket(wsEp)
         ws.current.onmessage = (msg) => {
+            console.log(msg)
             var action = {
                 type: actionTypes.clientMessage,
                 payload: JSON.parse(msg.data)
