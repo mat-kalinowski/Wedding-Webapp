@@ -34,6 +34,9 @@ func (a *User) adminWriter(){
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway){
 				fmt.Printf("Connection with admin closed unexpectedly\n")
 			}
+
+			a.hub.unregister <- a
+
 			return
 		}
 

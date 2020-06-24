@@ -20,6 +20,7 @@ func main(){
 	models.CreateAdminUser(models.User{Username: "mateusz", Password: "nakamura"})
 
 	router.HandleFunc("/news", corsHandler).Methods("OPTIONS")
+	router.HandleFunc("/conversation", corsHandler).Methods("OPTIONS")
 	router.HandleFunc("/admin/login", corsHandler).Methods("OPTIONS")
 
 	router.HandleFunc("/news", getAllNews).Methods("GET")

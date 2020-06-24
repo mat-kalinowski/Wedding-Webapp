@@ -7,7 +7,8 @@ run:
 	go get -d -v ./...	
 	go install -v ./...
 	$(MAKE) migrations -C ./models/migrations
-	wedding-backend & echo $$! > $(PID_FILE)
+	wedding-backend
+#	wedding-backend & echo $$! > $(PID_FILE)
 
 watch: run
 	export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib" && \

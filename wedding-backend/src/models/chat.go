@@ -35,21 +35,16 @@ type Message struct {
 */
 
 func GetConversations(convs []Conversation) []Conversation{
-	var conv Conversation
-
 	rows, err := db.Queryx("SELECT * FROM users")
 
-	log.Printf("Getting conversations from database\n")
-
 	for rows.Next() {
+		var conv Conversation
 		err = rows.StructScan(&conv.User)
 		
     	if err != nil {
         	log.Fatalln(err)
 		} 
-	
-		log.Printf("%#v\n", conv.User)
-		
+			
 		err = db.Select(&conv.Messages, "SELECT recipient, sender, content FROM messages WHERE sender=? OR recipient=?", conv.User.Id, conv.User.Id)
 
 		if err != nil {
@@ -91,10 +86,8 @@ func StoreMessage(msg Message){
 	var err error
 
 	if msg.Sender != "admin" {
-		log.Printf("sender is not an admin, additional check \n")
 		err = db.Get(&currUser, searchQuery, msg.Sender)
 
-		log.Printf("error value: %s\n", err)
 		if err == sql.ErrNoRows {
 			log.Printf("inserting user into database \n")
 			_, err := db.Exec("INSERT INTO users (id, state) VALUES (?, ?)", msg.Sender, "open")
@@ -106,8 +99,7 @@ func StoreMessage(msg Message){
 		}
 	
 		if currUser.State == "history" {
-			updateQuery := "UPDATE users SET state=open WHERE id=?"
-	
+			updateQuery := `UPDATE users SET state="open" WHERE id=?`
 			db.Exec(updateQuery, msg.Sender)
 		}
 	
@@ -118,4 +110,15 @@ func StoreMessage(msg Message){
 	if err != nil {
 		log.Printf("Couldn't insert message into database!\n")
 	}
+}
+
+func CloseConversation(user string){
+	updateQuery := `UPDATE users SET state="history" WHERE id=?`
+
+	_, err := db.Exec(updateQuery, user)
+
+	if err != nil {
+		log.Printf("Couldn't set conversation state to history!\n");
+	}
+
 }

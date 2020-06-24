@@ -26,7 +26,10 @@ func (c *User) clientWriter(){
 				fmt.Printf("Connection with client closed unexpectedly\n")
 			}
 
+			models.CloseConversation(c.id)
 			c.hub.send <- &models.Message{"admin", c.id, "", "disconnect"}
+			c.hub.unregister <- c
+
 			return
 		}
 
@@ -46,6 +49,7 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	}
 
 	client := &User{id: r.RemoteAddr, hub: hub, conn: ws, send: make(chan *models.Message)}
+	fmt.Printf("NEW CLIENT: %s\n", client.id)
 	hub.register <- client
 
 	go client.clientWriter()
