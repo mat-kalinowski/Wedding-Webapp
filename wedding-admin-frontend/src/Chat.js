@@ -20,11 +20,11 @@ const actionHandlers = {
 
         if(!conv && msg.type === "message"){
             convMap = state.set(msg.sender, {state: "open",
-            messages: [{sender: msg.sender, content: msg.content.slice(1,-1)}]})
+            messages: [{sender: msg.sender, content: msg.content}]})
 
         }
         else if(conv && msg.type === "message" ){
-            conv.messages.push({sender: msg.sender, content: msg.content.slice(1,-1)})
+            conv.messages.push({sender: msg.sender, content: msg.content})
             conv.state = "open"
 
             convMap = state.set(msg.sender, conv)
