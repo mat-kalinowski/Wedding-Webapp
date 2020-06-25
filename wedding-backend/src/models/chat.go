@@ -62,16 +62,15 @@ func GetConversations(convs []Conversation) []Conversation{
 * Messages are removed automatically due to FOREIGN KEY field by removing given user
 */
 
-/*func DeleteConversation(user string){
+func DeleteConversation(user string){
 	removeQuery := `DELETE FROM users WHERE id=?`
 
-	_, err := db.Exec(removeQuery, sender)
+	_, err := db.Exec(removeQuery, user)
 
 	if err != nil {
-		log.Printf("Couldn't remove given news from database\n")
+		log.Printf("Couldn't remove given user and its conversation from database!\n")
 	}
-}*/
-
+}
 
 /*
 * Storing single message in database messages table

@@ -5,6 +5,7 @@ import (
     "github.com/mat-kalinowski/wedding-backend/models"
 
     "net/http"
+    "fmt"
     "encoding/json"
 	"github.com/gorilla/websocket"
 	"github.com/gorilla/mux"
@@ -74,6 +75,20 @@ func getConversations(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(convs)
 }
 
+func deleteConversation(w http.ResponseWriter, r *http.Request){
+    keys, exists := r.URL.Query()["user"]
+    
+	if !exists {
+		http.Error(w,"Wrong parameters in URL query!", http.StatusBadRequest)
+    }
+
+    fmt.Printf("user name: %s\n", keys[0])
+	models.DeleteConversation(keys[0])
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+}
+
 func SetupRoutes(router *mux.Router) {
     hub = newHub()
     go hub.run()
@@ -82,4 +97,5 @@ func SetupRoutes(router *mux.Router) {
     router.Handle("/admin/ws", auth.AuthMiddleware(http.HandlerFunc(adminWsHandler))).Methods("GET")
 
     router.Handle("/conversation", auth.AuthMiddleware(http.HandlerFunc(getConversations))).Methods("GET")
+    router.Handle("/conversation", auth.AuthMiddleware(http.HandlerFunc(deleteConversation))).Methods("DELETE")
 }

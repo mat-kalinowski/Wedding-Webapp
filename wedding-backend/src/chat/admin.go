@@ -2,6 +2,7 @@ package chat
 
 import ( 
 	"fmt"
+	"bytes"
 	"encoding/json"
 	"github.com/gorilla/websocket"
 	"net/http"
@@ -13,14 +14,15 @@ func (a *User) adminReader(){
 	for {
 		msg := <-a.send
 
-		jsonMsg, err := json.Marshal(msg)
+		reqBodyBytes := new(bytes.Buffer)
+		err := json.NewEncoder(reqBodyBytes).Encode(msg)
 
 		if err != nil {
 			fmt.Printf("Cannot encode client message to json struct: %s\n", err)
 			return
 		}
 
-		a.conn.WriteMessage(websocket.TextMessage, jsonMsg)
+		a.conn.WriteMessage(websocket.TextMessage, reqBodyBytes.Bytes())
 	}
 }
 
@@ -41,6 +43,8 @@ func (a *User) adminWriter(){
 		}
 
 		err = json.Unmarshal(msg, jsonMsg)
+
+		fmt.Printf("message from client: %#v\n", jsonMsg)
 
 		if err != nil {
 			fmt.Printf("Cannot encode client message to json struct: %s\n", err)
