@@ -3,6 +3,9 @@ import React, {useRef, useEffect, useState,
 
 import './css/chat.css'
 
+import MarkunreadIcon from '@material-ui/icons/Markunread';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 const { Map } = require('immutable');
 
 var _ = require('lodash');
@@ -11,7 +14,14 @@ const actionTypes = {
     clientMessage: "CLIENT_MESSAGE",
     adminMessage: "ADMIN_MESSAGE",
     historyConversations: 'HISTORY_CONVERSATIONS',
+    deleteConversation: 'DELETE_CONVERSATION',
 };
+
+const iconStyle = {color: '#cecfbc'}
+const iconDeleteHover = {color: 'red'}
+
+const hiddenIcon = {visibility: 'hidden'}
+
 
 const actionHandlers = {
     ["CLIENT_MESSAGE"] (state, msg) {
@@ -20,12 +30,14 @@ const actionHandlers = {
 
         if(!conv && msg.type === "message"){
             convMap = state.set(msg.sender, {state: "open",
-            messages: [{sender: msg.sender, content: msg.content}]})
+            messages: [{sender: msg.sender, content: msg.content}],
+            style: iconStyle})
 
         }
         else if(conv && msg.type === "message" ){
             conv.messages.push({sender: msg.sender, content: msg.content})
             conv.state = "open"
+            conv.style = iconStyle
 
             convMap = state.set(msg.sender, conv)
         }
@@ -55,10 +67,15 @@ const actionHandlers = {
         var convMap = _.cloneDeep(state)
 
         convs.forEach((conv) => {
-            convMap = convMap.set(conv.user.id, {state: conv.user.state, messages: conv.messages})
+            convMap = convMap.set(conv.user.id, {state: conv.user.state, style: hiddenIcon, messages: conv.messages})
         })
 
         return convMap
+    },
+    ["DELETE_CONVERSATION"] (state, user) {
+        var convMap = _.cloneDeep(state)
+
+        return convMap.delete(user)
     }
 }
 
@@ -83,19 +100,20 @@ function Chat(props){
     const [activeSender, changeActiveSender] = useState("")
 
     useEffect((o) => {
-        console.log("getting conversations from history\n")
         var reqData = { method: "GET",
                         headers: {'Content-Type': 'application/json; charset=UTF-8'}}
 
         fetch(msgEp, reqData)
         .then(res => res.json())
         .then(data => {
+            console.log(data)
+
             if(data){
                 var action = {
                     type: actionTypes.historyConversations,
                     payload: data
                 }
-    
+
                 changeConversation(action)
             }
         })
@@ -127,8 +145,28 @@ function Chat(props){
         changeConversation(action)
     })
 
+    const deleteConversation = useCallback((user) =>{
+        var reqData = { method: "DELETE",
+                        headers: {'Content-Type': 'application/json; charset=UTF-8'}}
+        var queryURL = msgEp + "&user=" + user
+
+        fetch(queryURL, reqData)
+        .then(res => {
+            if(res.ok){
+                var action = {
+                    type: actionTypes.deleteConversation,
+                    payload: user
+                }
+
+                changeConversation(action)
+            }
+        })
+        .catch(msg => console.log(`Cannot update news in DB: ${msg}`))
+
+    })
+
     return <div className="chatContainer">
-            <ContactList convMap={convCurrent} swapActive={changeActiveSender}/>
+            <ContactList convMap={convCurrent} swapActive={changeActiveSender} deleteConversation={deleteConversation}/>
             <ConversationPane submit={submitMessage} convMap={convCurrent} sender={activeSender} />
            </div>
 }
@@ -153,8 +191,7 @@ function ConversationPane(props) {
                 <div className="conversationPane">{conversation && 
                     conversation.messages.map(o =>{
                         const inlineStyle = o.sender === "admin" ? {backgroundColor: '#c6bccf', alignSelf: 'flex-end'} 
-                                                                : {backgroundColor: '#cecfbc', alignSelf: "flex-start"}
-
+                                                                : {backgroundColor: '#cecfbc', alignSelf: 'flex-start'}
                         return <div className="messageBox" style={inlineStyle}>{o.content}</div>
                     }
                 )}
@@ -169,23 +206,51 @@ function ContactList(props){
 
     const getConversationsHistory = useCallback((e) => {})
 
+    const chooseConversation = useCallback((user, conv) => {
+        props.swapActive(user)
+        conv.style=hiddenIcon
+    }, [])
+
     const filterContacts = useCallback((filter) =>
         [...props.convMap].map((entry) => {
             if(entry[1].state === filter){
 
-                return (<div onClick={() => {props.swapActive(entry[0])}} className="contactListItem" key={entry[0]}>
-                            {entry[0]}
+                return (<div onClick={() => {chooseConversation(entry[0], entry[1])}} className="contactListItem" key={entry[0]}>
+                            <div className="contactHeader">
+                                {entry[0]}
+                            </div>
+                            <div className="contactButtonsContainer">
+                                <MarkunreadIcon className="iconDefaultStyle" style={entry[1].style}/>
+                                <HoverButton name={DeleteIcon} className="iconDefaultStyle" defaultStyle={iconStyle}
+                                        hoverStyle={iconDeleteHover} onClick={() => props.deleteConversation(entry[0])}/>
+                            </div>
                         </div>)
             }
         }))
 
     return ( 
         <div className="contactList">
-            <div className="listBreak">Obecne rozmowy</div>
+            <div className="listBreak"><b>Obecne rozmowy</b></div>
             {filterContacts("open")}
-            <div className="listBreak">Historia</div>
+            <div className="listBreak"><b>Historia</b></div>
             {filterContacts("history")}
         </div>)
+}
+
+function HoverButton(props){
+    const [hover, changeHover] = useState(false)
+
+    var {name: Component, hoverStyle, defaultStyle, ...nativeProps} = props
+    var style = {}
+
+    if(hover){
+        style = hoverStyle
+    }
+    else {
+        style = defaultStyle
+    }
+
+    return <Component {...nativeProps} style={style} onMouseEnter={() => changeHover(!hover)} onMouseLeave={() => changeHover(!hover)}/> 
 }
 
 export default Chat;
