@@ -9,7 +9,8 @@
     font-size: 12px;
 
     padding: 20px;
-    background-color: aliceblue;
+    margin-left: 4px;
+    background-color: #f7f7f7;
 }
 
 .messageInput {
@@ -21,6 +22,9 @@
     padding: 10px;
 
     box-sizing: border-box;
+    border-radius: 8px 8px 8px 8px;
+    border: 2px solid #d4d4d4;
+    box-shadow: 0px 0px 2px #e8e8e8;
 
     overflow: auto;
     outline: none;
@@ -35,24 +39,29 @@
 }
 
 .contactList {
-    width: 400px;
+    width: 500px;
     height: auto;
 
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .listBreak {
-    padding: 10px;
+    padding: 16px;
+    margin-top: 4px;
 
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-style: oblique;
     text-align: center;
 
-    background-color: cornsilk;
-    color: black;
+    background-color: #f0f0f0;
+    color: grey;
+    
+    border-bottom: 2px solid #e8e8e8;
+    border-radius: 8px 8px 8px 8px;
+
 }
 
 .contactListItem {
@@ -61,15 +70,18 @@
     align-items: center;
     justify-content: space-around;
 
-    height: 80px;
-    line-height: 80px;
+    height: 70px;
+    line-height: 70px;
 
-    background-color: cornsilk;
-    color: black;
+    background-color: #f0f0f0;
+    color: grey;
+    border-bottom: 2px solid #e8e8e8;
 }
 
 .contactListItem:hover{
-    background-color: burlywood;
+    background-color: #e8e8e8;
+    box-shadow: 0px 0px 3px #8f8f8f;
+    z-index: 1;
 }
 
 .messageBox {

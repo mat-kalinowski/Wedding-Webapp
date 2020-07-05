@@ -17,8 +17,8 @@ const actionTypes = {
     deleteConversation: 'DELETE_CONVERSATION',
 };
 
-const iconStyle = {color: '#cecfbc'}
-const iconDeleteHover = {color: 'red'}
+const iconStyle = {color: '#d4d4d4'}
+const iconDeleteHover = {color: '#ba6665'}
 
 const hiddenIcon = {visibility: 'hidden'}
 
@@ -42,7 +42,9 @@ const actionHandlers = {
             convMap = state.set(msg.sender, conv)
         }
         else if(conv && msg.type === "disconnect"){
-            convMap = state.set(msg.sender, {state: "history", messages: conv.messages})
+            convMap = state.set(msg.sender, {state: "history", 
+            messages: conv.messages,
+            style: conv.style})
         }
 
         return convMap
@@ -196,7 +198,6 @@ function ConversationPane(props) {
                     }
                 )}
                 </div>
-
                 <textarea rows="1" onChange={textTypingHandler} value={message} 
                             onKeyDown={keyDownHandler} className="messageInput"></textarea>
             </div>)

@@ -1,10 +1,9 @@
 .contentContainer{
     margin: auto;
-    width: 66%;
+    width: 83%;
     padding: 10px;
-    background-color: beige;
-    height: 500px;
-    overflow-y: scroll;
+    height: 700px;
+    overflow-y: hidden;
 }
 
 .newsListContainer{
