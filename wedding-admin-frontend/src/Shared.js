@@ -9,6 +9,7 @@ import {
   } from "react-router-dom";
   
 import './css/menu.css'
+import './css/chat.css'
 import './css/header.css'
 import './css/main.css'
 
@@ -42,7 +43,6 @@ function News(props){
 
     var [newsArr, newsSet] = useState([])
     var [newsUpdate, updateRequest] = useState(1)
-    var [addAccordion, changeAccordionState] = useState(false)
 
     var clearNews = {id: -1, title: "", content: ""}
     
@@ -85,14 +85,21 @@ function News(props){
         .catch(msg => console.log(`Cannot delete news from DB: ${msg}`))
     },[])
 
-    return (<>
-                <div className="newsListBar">
-                    <button onClick={() => changeAccordionState(!addAccordion)}>Dodaj newsa</button>
-                    <NewsAccordion updateNews={updateNews} active={addAccordion}>{clearNews}</NewsAccordion>
+    return (<div className="newsContainer">
+                <div className="addNewsPane">
+                    <div className="sectionHeader">Dodaj news'a</div>
+                    <NewsAccordion updateNews={updateNews} button={<button className="addNewsButton" type="submit"></button>} 
+                    active={true}>{clearNews}</NewsAccordion>
                 </div>
-                {newsArr ? newsArr.map(o => <NewsBrick deleteNews={deleteNews} updateNews={updateNews} >{o}</NewsBrick>)
-                : <div className="newsListContainer">Brak newsow w bazie danych</div>}
-            </>);
+
+                <div className="vl"></div>
+
+                <div className="newsList">
+                    <div className="sectionHeader">Lista dodanych</div>
+                    {newsArr ? newsArr.map(o => <NewsBrick deleteNews={deleteNews} updateNews={updateNews} >{o}</NewsBrick>)
+                    : <div className="newsListContainer">Brak newsow w bazie danych</div>}
+                </div>
+            </div>);
 }
 
 
@@ -119,6 +126,7 @@ function NewsBrick(props){
 function NewsAccordion(props){
 
     var inactiveStyle={display: 'none'}
+    var labelStyle={fontFamily: "'Lato', sans-serif", color: 'grey'}
 
     const [value, setValue] = React.useState({
                                 title: props.children.title,
@@ -145,15 +153,14 @@ function NewsAccordion(props){
     })
 
     return props.active ? <form onSubmit={handleSubmit} className="newsAccordion">
-                            <label htmlFor="title">Tytul</label>
-                            <textarea id="title" name="title" rows="1" onChange={handleChange} value={value.title}/>
+                            <label style={labelStyle} htmlFor="title">Tytul</label>
+                            <textarea className="messageInput" id="title" name="title" rows="1" onChange={handleChange} value={value.title}/>
 
                             <br></br>
 
-                            <label htmlFor="content">Tresc</label>
-                            <textarea id="content" name="content" rows="10" onChange={handleChange} value={value.content}/>
-
-                            <button type="submit">Zapisz</button>
+                            <label style={labelStyle} htmlFor="content">Tresc</label>
+                            <textarea className="messageInput" id="content" name="content" rows="10" onChange={handleChange} value={value.content}/>
+                            {props.button}
                           </form>
                         : <div style={inactiveStyle}></div>
 }
