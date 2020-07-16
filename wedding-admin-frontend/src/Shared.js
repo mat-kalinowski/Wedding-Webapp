@@ -16,7 +16,7 @@ import './css/main.css'
 export {Menu, Header, ContentPane, News}
 
 function Header(props){
-    return <div className="headerContainer">4events - panel administratora</div>
+    return <div className="headerContainer">4events - admin panel</div>
 }
 
 function ContentPane(props){

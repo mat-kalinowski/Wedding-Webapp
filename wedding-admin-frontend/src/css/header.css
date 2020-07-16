@@ -1,11 +1,14 @@
 .headerContainer{
-    background-color: grey;
+    background-color: #75adc9;
+    color: #d4d4d4;
+    text-shadow: 0px 0px 10px #506f87;
+
+
     width: auto;
-    height: 50px;
     padding: 20px;
 
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
+    font-size: 34px;
     text-align: left;
 }
