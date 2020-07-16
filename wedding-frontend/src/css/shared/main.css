@@ -2,6 +2,7 @@
   definitions of header layout and overall web page layout
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 .headerLogo {
   font-family: Helvetica;
@@ -12,7 +13,7 @@
 
 .headerSubText {
   font-size: 16px;
-  font-family: Helvetica;
+  font-family: 'Lato', sans-serif;
   color: #8f8067;
 }
 
@@ -23,4 +24,30 @@
   background-color:#faf3ed;
   align-self: stretch;
   text-align: center;
+}
+
+.textBox {
+  padding: 8px;
+  margin-top: 6px;
+  font-family: 'Lato', sans-serif;
+
+
+  border: 2px solid #e3e1df;
+  border-radius: 8px;
+  background-color: #faf5f1;
+  box-shadow: 0px 0px 8px #e3e1df;
+}
+
+li {
+  margin-top: 8px;
+  margin-left: 16px;
+}
+
+li:last-of-type {
+  margin-bottom: 4px;
+}
+
+.materialReset { 
+  display: inline-flex;
+  vertical-align: top;
 }

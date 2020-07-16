@@ -22,9 +22,9 @@ var social_media = [
 export class Home extends React.Component {
   render(){
     return(<>
-            <div className="headerPane"><MenuBookIcon style={{ fontSize: 50}} /> Co nowego ?</div>
+            <div className="headerPane"><MenuBookIcon className="materialReset" style={{ fontSize: 50}} /> Co nowego ?</div>
             <NewsContainer></NewsContainer>
-            <div className="headerPane"><GroupIcon  style={{ fontSize: 50 }}/> Serwisy społecznościowe</div>
+            <div className="headerPane"><GroupIcon className="materialReset" style={{ fontSize: 50 }}/> Serwisy społecznościowe</div>
 
             {social_media.map(object =>
               <SocialMediaButton name={object.component} style={object.style} hoverStyle={object.hoverStyle}>

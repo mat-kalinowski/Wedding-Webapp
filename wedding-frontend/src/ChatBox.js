@@ -17,13 +17,13 @@ export class ChatBox extends React.Component {
   
       this.ws.onmessage = (e) => {
         console.log(e.data)
-        this.setState({messages: this.state.messages.concat(e.data)})
+        this.setState({messages: this.state.messages.concat({content: e.data, sender: "admin"})})
       }
     }
 
     sendMessage = (msg) => {
         this.ws.send(msg)
-        this.setState({messages: this.state.messages.concat(msg)})
+        this.setState({messages: this.state.messages.concat({content: msg, sender: "user"})})
     }
   
     render() {
@@ -40,7 +40,12 @@ export class ChatConversationPane extends React.Component {
         const { messages } = this.props
         return (<>
             <div className="chatConversationPane">
-                { messages.map( msg => <div className="messageBox" >{msg}</div> ) }
+                { messages.map( msg => {
+                    const inlineStyle = msg.sender === "admin" ? {backgroundColor: '#c6bccf', alignSelf: 'flex-start'} 
+                                                                : {backgroundColor: '#cecfbc', alignSelf: "flex-end"}
+
+                    return <div className="messageBox"  style={inlineStyle}>{msg.content}</div>
+                })}
             </div>
         </>)
     }

@@ -104,11 +104,14 @@ export class MainPane extends React.Component {
               <ChatBox />
              </div>
              <div className="navbarLowerPane">
-                <div className="aboutTitlePane">
-                  <div className="aboutHeaderPane">O Mnie |</div>
-                  <div className="aboutPhotoPane"></div>
+                <div className="aboutHeaderPane">Kontakt</div>
+                <div className="aboutContentPane">
+                  <div className="textBox">
+                    Zapraszamy do korzystania z dowolnej formy kontaktu i zadawanie dowolnej liczby pytan :)
+                    <li><b>Numer telefonu:</b> 692078731</li>
+                    <li><b>Email:</b> kontakt@4events.com</li>
+                  </div>
                 </div>
-                <div className="aboutContentPane">Nazywam sie Jaroslaw Kalinowski i na codzien zajmuje sie proawdzeniem imprez muzycznych.</div>
              </div>
            </div>
         </div>
