@@ -5,7 +5,6 @@ import (
     "github.com/mat-kalinowski/wedding-backend/models"
 
     "net/http"
-    "fmt"
     "encoding/json"
 	"github.com/gorilla/websocket"
 	"github.com/gorilla/mux"
@@ -82,11 +81,10 @@ func deleteConversation(w http.ResponseWriter, r *http.Request){
 		http.Error(w,"Wrong parameters in URL query!", http.StatusBadRequest)
     }
 
-    fmt.Printf("user name: %s\n", keys[0])
-	models.DeleteConversation(keys[0])
-
+    models.DeleteConversation(keys[0])
+    
+    w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
 }
 
 func SetupRoutes(router *mux.Router) {

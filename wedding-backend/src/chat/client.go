@@ -9,7 +9,13 @@ import (
 
 )
 
+var greeting= "Witamy na naszej stronie! zapraszamy do bezposredniego kontaktu za pomoca chatu."
+var initialMessage = "Zachecamy do przekazania kontaktu w razie gdyby nikt z naszego zespolu nie byl w stanie natychmiastowo odpowiedziec"
+
 func (c *User) clientReader(){
+	c.conn.WriteMessage(websocket.TextMessage, []byte(greeting))
+	c.conn.WriteMessage(websocket.TextMessage, []byte(initialMessage))
+
 	for {
 		msg := <-c.send
 
@@ -49,7 +55,6 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	}
 
 	client := &User{id: r.RemoteAddr, hub: hub, conn: ws, send: make(chan *models.Message)}
-	fmt.Printf("NEW CLIENT: %s\n", client.id)
 	hub.register <- client
 
 	go client.clientWriter()

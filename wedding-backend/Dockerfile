@@ -8,4 +8,5 @@ WORKDIR /root
 COPY ./fswatch-setup.sh .
 RUN  ./fswatch-setup.sh
 
-CMD make -C /root watch
+#CMD make -C /root watch
+CMD make -C /root run
