@@ -22,6 +22,7 @@
   padding: 30px;
   margin: 0;
   background-color:#faf3ed;
+  align-self: stretch;
   text-align: center;
 }
 

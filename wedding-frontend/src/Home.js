@@ -1,5 +1,4 @@
 import React from 'react'
-import M from 'materialize-css';
 
 import GroupIcon from '@material-ui/icons/Group';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
