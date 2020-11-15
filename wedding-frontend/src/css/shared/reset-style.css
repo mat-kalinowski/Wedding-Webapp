@@ -1,0 +1,28 @@
+button:focus {
+    background-color: transparent!important;
+    background-repeat: no-repeat!important;
+
+    border:none!important;
+    outline:none!important;
+}
+
+button {
+    background-repeat: no-repeat!important;
+    background-color: transparent!important;
+
+    border:none!important;
+    outline:none!important;
+}
+
+input:focus {
+    border-bottom: none!important;
+    box-shadow: none!important;
+ }
+
+ input {
+    outline: none!important;
+    display: inline-block!important;
+    box-sizing: border-box!important;
+    border-bottom: none!important;
+ }
+ 

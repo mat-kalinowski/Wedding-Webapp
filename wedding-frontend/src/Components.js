@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import {ChatBox} from './ChatBox.js'
+import M from 'materialize-css';
 
 import './css/shared/menu.css'
 import './css/shared/main.css'
@@ -52,6 +53,11 @@ export class MenuContainer extends React.Component {
 }
 
 export class Header extends React.Component {
+  componentDidMount(...args) {
+    M.AutoInit();
+    console.log("initialised companent with materialize");
+  }
+
   render() {
     return(
       <div className="header" id="header">
@@ -72,50 +78,33 @@ export class MainPane extends React.Component {
             width: window.innerWidth,
             borderWidth: 0 }
 
-  updateDimensions(){
-    var menuElement = document.getElementById("menu")
-
-    var newHeight = window.innerHeight - menuElement.offsetHeight - 140
-    var newWidth = window.innerHeight *1.618
-
-    var fillWidth = newWidth + (window.innerWidth - newWidth) / 2;
-
-   this.setState({height: newHeight, width: newWidth, borderWidth: fillWidth})
-  }
-
-  componentWillMount(){
-
-    window.addEventListener('resize', this.updateDimensions.bind(this))
-  }
-
-  componentWillUnmount(){
-    window.removeEventListener('resize', this.updateDimensions.bind(this))
-  }
-
   render(){
 
     return(
-      <div style={{"width": this.state.borderWidth}} className="colorFill">
-        <div style={{"height": this.state.height, "width": this.state.width}} className="mainPane">
-           <div className="contentPane">{this.props.menuList.map(object => <Route path={object.id} component={object.class} />)}
-           </div>
-           <div className="navbarPane">
-             <div className="navbarUpperPane">
-              <ChatBox />
-             </div>
-             <div className="navbarLowerPane">
-                <div className="aboutHeaderPane">Kontakt</div>
-                <div className="aboutContentPane">
-                  <div className="textBox">
-                    Zapraszamy do korzystania z dowolnej formy kontaktu i zadawanie dowolnej liczby pytan :)
-                    <li><b>Numer telefonu:</b> 692078731</li>
-                    <li><b>Email:</b> kontakt@4events.com</li>
+      <div className="row">
+        <div className="colorFill col s12"/>
+          <div className="mainPane">
+            <div className="contentPane">{this.props.menuList.map(object => <Route path={object.id} component={object.class} />)}
+            </div>
+            <div className="navbarPane">
+              <div className="navbarUpperPane">
+                <ChatBox />
+              </div>
+              <div className="navbarLowerPane">
+                  <div className="aboutHeaderPane">Kontakt</div>
+                  <div className="aboutContentPane">
+                    <div className="textBox">
+                      Zapraszamy do korzystania z dowolnej formy kontaktu i zadawanie dowolnej liczby pytan :)
+                      <li><b>Numer telefonu:</b> 692078731</li>
+                      <li><b>Email:</b> kontakt@4events.com</li>
+                    </div>
                   </div>
-                </div>
-             </div>
-           </div>
-        </div>
+              </div>
+            </div>
+          </div>
+        <div className="row col s12"/>
       </div>
+      
       );
   }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter } from "react-router-dom"
 
 import './css/shared/main.css'
+import './css/shared/reset-style.css'
 
 import {MenuContainer,
         Header,
@@ -19,13 +20,11 @@ var menuList = [{name: "Aktualności", id: "/home", class: Home},
 function App() {
   document.title = "4events"
   return (
-    <HashRouter>
-      <div className="app">
-       <Header>4events.</Header>
-       <MenuContainer menuList={menuList} />
-       <MainPane menuList={menuList} />
-      </div>
-    </HashRouter>
+      <HashRouter>
+        <Header>4events.</Header>
+        <MenuContainer menuList={menuList} />
+        <MainPane menuList={menuList} />
+      </HashRouter>
   );
 }
 
