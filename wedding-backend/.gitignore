@@ -1,2 +1,2 @@
-./src/.cache
-./src/go.sum
+src/.cache/*
+src/go.sum
