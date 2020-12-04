@@ -90,7 +90,7 @@ export class MainPane extends React.Component {
                 <ChatBox />
               </div>
               <div className="navbarLowerPane">
-                  <div className="aboutHeaderPane">Kontakt</div>
+                  <div className="aboutHeaderPane">O Mnie</div>
                   <div className="aboutContentPane">
                     <div className="textBox">
                       Zapraszamy do korzystania z dowolnej formy kontaktu i zadawanie dowolnej liczby pytan :)
