@@ -81,12 +81,11 @@ export class MainPane extends React.Component {
   render(){
 
     return(
-      <div className="row">
-        <div className="colorFill col s12"/>
-          <div className="mainPane">
-            <div className="contentPane">{this.props.menuList.map(object => <Route path={object.id} component={object.class} />)}
+      <div className="mainPane row">
+            <div className="colorFillLeft col l1"/>
+            <div className="contentPane col l6 m12">{this.props.menuList.map(object => <Route path={object.id} component={object.class} />)}
             </div>
-            <div className="navbarPane">
+            <div className="navbarPane col l4 m12">
               <div className="navbarUpperPane">
                 <ChatBox />
               </div>
@@ -101,8 +100,7 @@ export class MainPane extends React.Component {
                   </div>
               </div>
             </div>
-          </div>
-        <div className="row col s12"/>
+            <div className="colorFillRight col l1"/>
       </div>
       
       );
