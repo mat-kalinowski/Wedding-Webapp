@@ -12,6 +12,8 @@ import './css/shared/main.css'
 import './css/shared/pane.css'
 import './css/shared/chat.css'
 
+const logo = require('./images/jarek.jpg');
+
 export class MenuBrick extends React.Component {
   render() {
     var opt = this.props.children
@@ -91,11 +93,12 @@ export class MainPane extends React.Component {
               </div>
               <div className="navbarLowerPane">
                   <div className="aboutHeaderPane">O Mnie</div>
-                  <div className="aboutContentPane">
-                    <div className="textBox">
-                      Zapraszamy do korzystania z dowolnej formy kontaktu i zadawanie dowolnej liczby pytan :)
-                      <li><b>Numer telefonu:</b> 692078731</li>
-                      <li><b>Email:</b> kontakt@4events.com</li>
+                  <div className="aboutContentPane row textBox">
+                    <div className="col l4 s2 " style={{margin: 'auto'}}>
+                      <img src={logo} alt="" class="circle responsive-img z-depth-4"/>
+                    </div>
+                    <div className="verticalBreak col l8 s10">
+                      Nazywam sie Jaroslaw Kalinowski, zajmuje sie prowadzeniem eventow. Zapraszamy do skontaktowania sie ze mna.
                     </div>
                   </div>
               </div>
