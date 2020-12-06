@@ -12,12 +12,12 @@ import './css/shared/main.css'
 
 var backend_news_ep = "http://127.0.0.1:8000/news"
 
-var default_style = {fontSize: 40, color:'grey', margin:4}
+var default_style = {fontSize: 35, color:'grey', margin:2}
 
 var social_media = [
-  {component:InstagramIcon, style: default_style, hoverStyle:{margin:4, fontSize: 40, color:'pink'}},
-  {component:FacebookIcon, style: default_style, hoverStyle:{margin:4, fontSize: 40, color:'blue'}},
-  {component:PinterestIcon, style: default_style, hoverStyle:{margin:4, fontSize: 40, color:'red'}}
+  {component:InstagramIcon, style: default_style, hoverStyle:{margin:2, fontSize: 35, color:'pink'}},
+  {component:FacebookIcon, style: default_style, hoverStyle:{margin:2, fontSize: 35, color:'blue'}},
+  {component:PinterestIcon, style: default_style, hoverStyle:{margin:2, fontSize: 35, color:'red'}}
 ]
 
 export class Home extends React.Component {
@@ -25,7 +25,8 @@ export class Home extends React.Component {
     return(<>
             <div className="headerPane"><MenuBookIcon className="materialReset" style={{ fontSize: 50}} /> Co nowego ?</div>
             <NewsContainer></NewsContainer>
-            <div className="headerPane"><GroupIcon className="materialReset" style={{ fontSize: 50 }}/> Serwisy społecznościowe</div>
+            <div className="headerPane"><MenuBookIcon className="materialReset" style={{ fontSize: 50}}/> Ostatnie eventy</div>
+            <div className="headerPane"><GroupIcon className="materialReset" style={{ fontSize: 50 }}/> Socialmedia</div>
 
             {social_media.map(object =>
               <SocialMediaButton name={object.component} style={object.style} hoverStyle={object.hoverStyle}>
