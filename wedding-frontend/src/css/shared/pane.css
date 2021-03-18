@@ -68,7 +68,7 @@ body {
 
 .navbarUpperPane {
  margin-top: 10px;
- flex-grow: 7;
+ flex-grow: 10;
  display: flex;
  align-items: center;
 }

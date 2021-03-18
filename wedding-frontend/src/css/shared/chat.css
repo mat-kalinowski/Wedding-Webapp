@@ -46,12 +46,13 @@
 }
 
 /* input.chatInputField to override material framework styles */
-input.chatInputField {
+input[type=text]{
     background-color: white;
     color: #888;
 
     width: 100%;
     height: 100%;
+    border: none;
     border-radius: 0px 0px 0px 25px;
     border-top: 2px solid #dbd0bd;
 

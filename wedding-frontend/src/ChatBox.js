@@ -89,7 +89,7 @@ export class ChatMessageBox extends React.Component {
     render(){
         return(
             <div className="chatMessageBox">
-                <input className="chatInputField" onChange={this.textChangeHandler} onClick={this.startTypeHandler}
+                <input class="browser-default" type="text" onChange={this.textChangeHandler} onClick={this.startTypeHandler}
                        onKeyDown={this.keyDownHandler} value={this.state.text}></input>
                 <button type="submit" onClick={this.sendMessage} className="sendMessageButton"></button>
             </div>)
