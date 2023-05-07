@@ -11,7 +11,7 @@
     "install": "^0.13.0",
     "materialize-css": "^1.0.0-rc.2",
     "node": "^13.12.0",
-    "npm": "^6.14.8",
+    "npm": "^9.6.6",
     "react": "^16.13.1",
     "react-dom": "^16.12.0",
     "react-materialize": "^3.9.3",
